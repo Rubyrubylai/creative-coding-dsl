@@ -1,0 +1,8 @@
+canvas "Kirby" {
+  let eye = circle {
+    radius 0.3
+    color black
+  }
+
+  draw eye at (0.8, 0.5)
+}

@@ -20,16 +20,12 @@ import crode::AST;
  * Finally, the resulting AST is used to evaluate the well-formedness of the crode program using the check function (Check.rsc).
  */
 bool checkWellformedness(loc fil) {
-  try {
-    // Parsing
-    start[Canvas] resource = parseCrode(fil);
-    // Transform the parse tree into an abstract syntax tree
-    crode::AST::Canvas ast = cst2ast(resource);
-    // Check the well-formedness of the program
-    return checkBoulderWallConfiguration(ast);
-  } catch ParseError(_): {
-    return false;
-  }
+  // Parsing
+  start[Canvas] resource = parseCrode(fil);
+  // Transform the parse tree into an abstract syntax tree
+  crode::AST::Canvas ast = cst2ast(resource);
+  // Check the well-formedness of the program
+  return checkCanvasConfiguration(ast);
 }
 
 /*
