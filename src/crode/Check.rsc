@@ -10,8 +10,6 @@ import Set;
 import Prelude;
 import String;
 
-import util::Maybe;
-
 
 /*
  * Implement a well-formedness checker for the crode language. For this you must use the AST.

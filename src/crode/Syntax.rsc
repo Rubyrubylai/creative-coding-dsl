@@ -19,3 +19,47 @@ lexical Whitespace
 lexical LineComment
   = @category="Comment" "//"  ![\n]* $;
 // ===========================================================================
+
+lexical StringLiteral = "\"" ![\"]* "\"";
+lexical Id = [a-zA-Z_][a-zA-Z0-9_]* !>> [a-zA-Z0-9_];
+lexical NumberLiteral
+  = "-"? [0-9]+ "." [0-9]+
+  | "-"? [0-9]+
+  ;
+lexical Color
+= "white"
+| "yellow"
+| "green"
+| "blue"
+| "red"
+| "purple"
+| "pink"
+| "black"
+| "orange"
+;
+
+start syntax Canvas
+  = canvas: "canvas" StringLiteral "{" Statement* "}";
+
+syntax Statement
+  = assignment: "let" Id "=" Expr
+  | draw: "draw" Id "at" Point
+  ;
+
+syntax Expr
+  = shape: Shape
+  ;
+
+syntax Shape
+  = circleShape: CircleShape;
+
+syntax CircleShape
+  = circle: "circle" "{"
+    "radius" NumberLiteral
+    "color" Color
+  "}"
+  ;
+
+syntax Point
+  = point: "(" NumberLiteral "," NumberLiteral ")";
+

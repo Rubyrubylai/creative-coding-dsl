@@ -18,3 +18,54 @@ import crode::Syntax;
  * Map regular CST arguments (e.g., *, +, ?) to lists
  * Map lexical nodes to Rascal primitive types (bool, int, str)
  */
+
+str unquote(str text)
+  = substring(text, 1, size(text) - 1);
+
+str loadString(StringLiteral text)
+  = unquote("<text>");
+
+str loadId(Id id)
+  = "<id>";
+
+real loadNumber(NumberLiteral n)
+  = toReal("<n>");
+
+crode::AST::Color loadColor((Color)`white`) = \white();
+crode::AST::Color loadColor((Color)`yellow`) = \yellow();
+crode::AST::Color loadColor((Color)`green`) = \green();
+crode::AST::Color loadColor((Color)`blue`) = \blue();
+crode::AST::Color loadColor((Color)`red`) = \red();
+crode::AST::Color loadColor((Color)`purple`) = \purple();
+crode::AST::Color loadColor((Color)`pink`) = \pink();
+crode::AST::Color loadColor((Color)`black`) = \black();
+crode::AST::Color loadColor((Color)`orange`) = \orange();
+
+crode::AST::Point loadPoint((Point)`( <NumberLiteral x> , <NumberLiteral y> )`)
+  = \point(loadNumber(x), loadNumber(y), src=x@\loc);
+
+crode::AST::Shape loadShape((Shape)`<CircleShape circleShape>`)
+  = loadCircleShape(circleShape);
+
+crode::AST::Shape loadCircleShape((CircleShape)`circle { radius <NumberLiteral radius> color <Color color> }`)
+  = \circle(loadNumber(radius), loadColor(color), src=radius@\loc);
+
+crode::AST::Expr loadExpr((Expr)`<Shape shapeTree>`)
+  = \shapeExpr(loadShape(shapeTree), src=shapeTree@\loc);
+
+crode::AST::Statement loadStatement((Statement)`let <Id id> = <Expr expr>`)
+  = \assignment(loadId(id), loadExpr(expr), src=id@\loc);
+
+crode::AST::Statement loadStatement((Statement)`draw <Id id> at <Point point>`)
+  = \draw(loadId(id), loadPoint(point), src=id@\loc);
+
+list[crode::AST::Statement] loadStatements(Statement* statements)
+  = [loadStatement(statement) | statement <- statements];
+
+// Keep only the domain-relevant data in the AST.
+// Discard concrete syntax details such as keywords, braces, and commas.
+public crode::AST::Canvas cst2ast((start[Canvas])`<Canvas canvasTree>`)
+  = loadCanvas(canvasTree);
+
+crode::AST::Canvas loadCanvas((Canvas)`canvas <StringLiteral id> { <Statement* statements> }`)
+  = \canvas(loadString(id), loadStatements(statements), src=id@\loc);
