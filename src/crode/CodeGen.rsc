@@ -44,6 +44,21 @@ str generateShape(Shape shape) {
            + "  noStroke();\n"
            + "  circle(0, 0, <diameter>);\n";
     }
+    case \ellipse(real width, real height, Color color): {
+      real jsWidth = width * scaleUnit;
+      real jsHeight = height * scaleUnit;
+      return "  fill(<colorToJs(color)>);\n"
+           + "  noStroke();\n"
+           + "  ellipse(0, 0, <jsWidth>, <jsHeight>);\n";
+    }
+    case \arc(real width, real height, real startAngle, real stopAngle, Color color): {
+      real jsWidth = width * scaleUnit;
+      real jsHeight = height * scaleUnit;
+      return "  noFill();\n"
+           + "  stroke(<colorToJs(color)>);\n"
+           + "  strokeWeight(4);\n"
+           + "  arc(0, 0, <jsWidth>, <jsHeight>, <startAngle>, <stopAngle>);\n";
+    }
   }
   return "";
 }
@@ -87,6 +102,7 @@ public str generateP5(Canvas canvas) {
            + generateDefinitions(statements)
            + "function setup() {\n"
            + "  createCanvas(800, 600);\n"
+           + "  angleMode(DEGREES);\n"
            + "  background(255);\n\n"
            + generateDrawCalls(statements)
            + "}\n";

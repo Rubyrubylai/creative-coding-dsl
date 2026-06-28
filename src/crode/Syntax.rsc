@@ -51,7 +51,10 @@ syntax Expr
   ;
 
 syntax Shape
-  = circleShape: CircleShape;
+  = circleShape: CircleShape
+  | ellipseShape: EllipseShape
+  | arcShape: ArcShape
+  ;
 
 syntax CircleShape
   = circle: "circle" "{"
@@ -60,6 +63,23 @@ syntax CircleShape
   "}"
   ;
 
+syntax EllipseShape
+  = ellipse: "ellipse" "{"
+    "width" NumberLiteral
+    "height" NumberLiteral
+    "color" Color
+  "}"
+  ;
+
+syntax ArcShape
+  = arc: "arc" "{"
+    "width" NumberLiteral
+    "height" NumberLiteral
+    "start" NumberLiteral
+    "stop" NumberLiteral
+    "color" Color
+  "}"
+  ;
+
 syntax Point
   = point: "(" NumberLiteral "," NumberLiteral ")";
-

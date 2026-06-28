@@ -47,8 +47,20 @@ crode::AST::Point loadPoint((Point)`( <NumberLiteral x> , <NumberLiteral y> )`)
 crode::AST::Shape loadShape((Shape)`<CircleShape circleShape>`)
   = loadCircleShape(circleShape);
 
+crode::AST::Shape loadShape((Shape)`<EllipseShape ellipseShape>`)
+  = loadEllipseShape(ellipseShape);
+
+crode::AST::Shape loadShape((Shape)`<ArcShape arcShape>`)
+  = loadArcShape(arcShape);
+
 crode::AST::Shape loadCircleShape((CircleShape)`circle { radius <NumberLiteral radius> color <Color color> }`)
   = \circle(loadNumber(radius), loadColor(color), src=radius@\loc);
+
+crode::AST::Shape loadEllipseShape((EllipseShape)`ellipse { width <NumberLiteral width> height <NumberLiteral height> color <Color color> }`)
+  = \ellipse(loadNumber(width), loadNumber(height), loadColor(color), src=width@\loc);
+
+crode::AST::Shape loadArcShape((ArcShape)`arc { width <NumberLiteral width> height <NumberLiteral height> start <NumberLiteral startAngle> stop <NumberLiteral stopAngle> color <Color color> }`)
+  = \arc(loadNumber(width), loadNumber(height), loadNumber(startAngle), loadNumber(stopAngle), loadColor(color), src=width@\loc);
 
 crode::AST::Expr loadExpr((Expr)`<Shape shapeTree>`)
   = \shapeExpr(loadShape(shapeTree), src=shapeTree@\loc);
