@@ -1,0 +1,8 @@
+canvas "Kirby" {
+  let test = square {
+    size 0.5
+    color black
+  }
+
+  draw test at (0.3, 0.3)
+}

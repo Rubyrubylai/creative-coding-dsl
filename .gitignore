@@ -1,0 +1,9 @@
+target/classes/rascal.pathconfig
+target/classes/rascal/crode/$AST.tpl
+target/classes/rascal/crode/$Check.tpl
+target/classes/rascal/crode/$CodeGen.tpl
+target/classes/rascal/crode/$CST2AST.tpl
+target/classes/rascal/crode/$Parser.tpl
+target/classes/rascal/crode/$Plugin.tpl
+target/classes/rascal/crode/$Server.tpl
+target/classes/rascal/crode/$Syntax.tpl

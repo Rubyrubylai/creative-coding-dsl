@@ -20,6 +20,8 @@ data Shape(loc src=|unknown:///|)
   = \circle(real radius, Color color)
   | \ellipse(real width, real height, Color color)
   | \arc(real width, real height, real startAngle, real stopAngle, Color color)
+  | \square(real size, Color color)
+  | \rect(real width, real height, Color color)
   ;
 
 data Color(loc src=|unknown:///|)

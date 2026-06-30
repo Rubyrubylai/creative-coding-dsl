@@ -59,6 +59,19 @@ str generateShape(Shape shape) {
            + "  strokeWeight(4);\n"
            + "  arc(0, 0, <jsWidth>, <jsHeight>, <startAngle>, <stopAngle>);\n";
     }
+    case \square(real size, Color color): {
+      real jsSize = size * scaleUnit;
+      return "  fill(<colorToJs(color)>);\n"
+           + "  noStroke();\n"
+           + "  square(0, 0, <jsSize>);\n"; // 0,0 is location of topleft corner, whereas circle/eclipse it's centre. TODO documentation
+    }
+    case \rect(real width, real height, Color color): {
+      real jsWidth = width * scaleUnit;
+      real jsHeight = height * scaleUnit;
+      return "  fill(<colorToJs(color)>);\n"
+           + "  noStroke();\n"
+           + "  rect(0, 0, <jsWidth>, <jsHeight>)";
+    }
   }
   return "";
 }

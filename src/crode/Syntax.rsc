@@ -54,6 +54,8 @@ syntax Shape
   = circleShape: CircleShape
   | ellipseShape: EllipseShape
   | arcShape: ArcShape
+  | squareShape: SquareShape
+  | rectShape: RectShape
   ;
 
 syntax CircleShape
@@ -77,6 +79,21 @@ syntax ArcShape
     "height" NumberLiteral
     "start" NumberLiteral
     "stop" NumberLiteral
+    "color" Color
+  "}"
+  ;
+
+syntax SquareShape
+  = square: "square" "{"
+    "size" NumberLiteral
+    "color" Color
+  "}"
+  ;
+
+syntax RectShape
+  = rect: "rect" "{"
+    "width" NumberLiteral
+    "height" NumberLiteral
     "color" Color
   "}"
   ;

@@ -53,6 +53,12 @@ crode::AST::Shape loadShape((Shape)`<EllipseShape ellipseShape>`)
 crode::AST::Shape loadShape((Shape)`<ArcShape arcShape>`)
   = loadArcShape(arcShape);
 
+crode::AST::Shape loadShape((Shape)`<SquareShape squareShape>`)
+  = loadSquareShape(squareShape);
+
+crode::AST::Shape loadShape((Shape)`<RectShape rectShape>`)
+  = loadRectShape(rectShape);
+
 crode::AST::Shape loadCircleShape((CircleShape)`circle { radius <NumberLiteral radius> color <Color color> }`)
   = \circle(loadNumber(radius), loadColor(color), src=radius@\loc);
 
@@ -61,6 +67,12 @@ crode::AST::Shape loadEllipseShape((EllipseShape)`ellipse { width <NumberLiteral
 
 crode::AST::Shape loadArcShape((ArcShape)`arc { width <NumberLiteral width> height <NumberLiteral height> start <NumberLiteral startAngle> stop <NumberLiteral stopAngle> color <Color color> }`)
   = \arc(loadNumber(width), loadNumber(height), loadNumber(startAngle), loadNumber(stopAngle), loadColor(color), src=width@\loc);
+
+crode::AST::Shape loadSquareShape((SquareShape)`square { size <NumberLiteral size> color <Color color> }`)
+  = \square(loadNumber(size), loadColor(color), src=size@\loc);
+
+crode::AST::Shape loadRectShape((RectShape)`rect { width <NumberLiteral width> height <NumberLiteral height> color <Color color> }`)
+  = \rect(loadNumber(width), loadNumber(height), loadColor(color), src=width@\loc);
 
 crode::AST::Expr loadExpr((Expr)`<Shape shapeTree>`)
   = \shapeExpr(loadShape(shapeTree), src=shapeTree@\loc);
