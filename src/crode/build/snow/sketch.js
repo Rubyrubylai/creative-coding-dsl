@@ -9,13 +9,13 @@ function snowflake() {
 function bubble() {
   fill("blue");
   noStroke();
-  circle(0, 0, (0.2 * 2.0 * 100.0));
+  circle(0, 0, ((random(0.2, 0.4) / 2.) * 2.0 * 100.0));
 }
 
 function block() {
   fill("red");
   noStroke();
-  square(0, 0, 30.00);
+  square(0, 0, (random(0.2, 0.4) * 100.0));
 }
 
 function setup() {

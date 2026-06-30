@@ -39,36 +39,37 @@ str joinStrings(list[str] parts) {
 str generateShape(Shape shape) {
   switch (shape) {
     case \circle(Expr radius, Color color): {
-      // real diameter = radius * 2.0 * scaleUnit;
       str diameter = "(<generateExprValue(radius)> * 2.0 * <scaleUnit>)";
       return "  fill(<colorToJs(color)>);\n"
            + "  noStroke();\n"
            + "  circle(0, 0, <diameter>);\n";
     }
-    case \ellipse(real width, real height, Color color): {
-      real jsWidth = width * scaleUnit;
-      real jsHeight = height * scaleUnit;
+    case \ellipse(Expr width, Expr height, Color color): {
+      str jsWidth = "(<generateExprValue(width)> * <scaleUnit>)";
+      str jsHeight = "(<generateExprValue(height)> * <scaleUnit>)";
       return "  fill(<colorToJs(color)>);\n"
            + "  noStroke();\n"
            + "  ellipse(0, 0, <jsWidth>, <jsHeight>);\n";
     }
-    case \arc(real width, real height, real startAngle, real stopAngle, Color color): {
-      real jsWidth = width * scaleUnit;
-      real jsHeight = height * scaleUnit;
+    case \arc(Expr width, Expr height, Expr startAngle, Expr stopAngle, Color color): {
+      str jsWidth = "(<generateExprValue(width)> * <scaleUnit>)";
+      str jsHeight = "(<generateExprValue(height)> * <scaleUnit>)";
+      str jsStartAngle = "(<generateExprValue(startAngle)>)";
+      str jsStopAngle = "(<generateExprValue(stopAngle)>)";
       return "  noFill();\n"
            + "  stroke(<colorToJs(color)>);\n"
            + "  strokeWeight(4);\n"
-           + "  arc(0, 0, <jsWidth>, <jsHeight>, <startAngle>, <stopAngle>);\n";
+           + "  arc(0, 0, <jsWidth>, <jsHeight>, <jsStartAngle>, <jsStopAngle>);\n";
     }
-    case \square(real size, Color color): {
-      real jsSize = size * scaleUnit;
+    case \square(Expr size, Color color): {
+      str jsSize = "(<generateExprValue(size)> * <scaleUnit>)";
       return "  fill(<colorToJs(color)>);\n"
            + "  noStroke();\n"
            + "  square(0, 0, <jsSize>);\n"; // 0,0 is location of topleft corner, whereas circle/eclipse it's centre. TODO documentation
     }
-    case \rect(real width, real height, Color color): {
-      real jsWidth = width * scaleUnit;
-      real jsHeight = height * scaleUnit;
+    case \rect(Expr width, Expr height, Color color): {
+      str jsWidth = "(<generateExprValue(width)> * <scaleUnit>)";
+      str jsHeight = "(<generateExprValue(height)> * <scaleUnit>)";
       return "  fill(<colorToJs(color)>);\n"
            + "  noStroke();\n"
            + "  rect(0, 0, <jsWidth>, <jsHeight>)";

@@ -85,33 +85,33 @@ syntax CircleShape
 
 syntax EllipseShape
   = ellipse: "ellipse" "{"
-    "width" NumberLiteral
-    "height" NumberLiteral
+    "width" Expr
+    "height" Expr
     "color" Color
   "}"
   ;
 
 syntax ArcShape
   = arc: "arc" "{"
-    "width" NumberLiteral
-    "height" NumberLiteral
-    "start" NumberLiteral
-    "stop" NumberLiteral
+    "width" Expr
+    "height" Expr
+    "start" Expr
+    "stop" Expr
     "color" Color
   "}"
   ;
 
 syntax SquareShape
   = square: "square" "{"
-    "size" NumberLiteral
+    "size" Expr
     "color" Color
   "}"
   ;
 
 syntax RectShape
   = rect: "rect" "{"
-    "width" NumberLiteral
-    "height" NumberLiteral
+    "width" Expr
+    "height" Expr
     "color" Color
   "}"
   ;

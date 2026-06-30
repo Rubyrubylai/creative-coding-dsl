@@ -65,17 +65,17 @@ crode::AST::Shape loadShape((Shape)`<RectShape rectShape>`)
 crode::AST::Shape loadCircleShape((CircleShape)`circle { radius <Expr radius> color <Color color> }`)
   = \circle(loadExpr(radius), loadColor(color), src=radius@\loc);
 
-crode::AST::Shape loadEllipseShape((EllipseShape)`ellipse { width <NumberLiteral width> height <NumberLiteral height> color <Color color> }`)
-  = \ellipse(loadNumber(width), loadNumber(height), loadColor(color), src=width@\loc);
+crode::AST::Shape loadEllipseShape((EllipseShape)`ellipse { width <Expr width> height <Expr height> color <Color color> }`)
+  = \ellipse(loadExpr(width), loadExpr(height), loadColor(color), src=width@\loc);
 
-crode::AST::Shape loadArcShape((ArcShape)`arc { width <NumberLiteral width> height <NumberLiteral height> start <NumberLiteral startAngle> stop <NumberLiteral stopAngle> color <Color color> }`)
-  = \arc(loadNumber(width), loadNumber(height), loadNumber(startAngle), loadNumber(stopAngle), loadColor(color), src=width@\loc);
+crode::AST::Shape loadArcShape((ArcShape)`arc { width <Expr width> height <Expr height> start <Expr startAngle> stop <Expr stopAngle> color <Color color> }`)
+  = \arc(loadExpr(width), loadExpr(height), loadExpr(startAngle), loadExpr(stopAngle), loadColor(color), src=width@\loc);
 
-crode::AST::Shape loadSquareShape((SquareShape)`square { size <NumberLiteral size> color <Color color> }`)
-  = \square(loadNumber(size), loadColor(color), src=size@\loc);
+crode::AST::Shape loadSquareShape((SquareShape)`square { size <Expr size> color <Color color> }`)
+  = \square(loadExpr(size), loadColor(color), src=size@\loc);
 
-crode::AST::Shape loadRectShape((RectShape)`rect { width <NumberLiteral width> height <NumberLiteral height> color <Color color> }`)
-  = \rect(loadNumber(width), loadNumber(height), loadColor(color), src=width@\loc);
+crode::AST::Shape loadRectShape((RectShape)`rect { width <Expr width> height <Expr height> color <Color color> }`)
+  = \rect(loadExpr(width), loadExpr(height), loadColor(color), src=width@\loc);
 
 crode::AST::Expr loadExpr((Expr)`<Shape shapeTree>`)
   = \shapeExpr(loadShape(shapeTree), src=shapeTree@\loc);
