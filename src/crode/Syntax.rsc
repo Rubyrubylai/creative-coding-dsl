@@ -64,8 +64,8 @@ syntax Expr
   > left sub: Expr "-" Expr
   ;
 
-syntax Cond // TODO Decision: "is" or "==" ? 
-  = isEqual: Expr "is" Expr
+syntax Cond // TODO Decision: "is", "equals", or "==" ? 
+  = isEqual: Expr "equals" Expr
   ;
 
 syntax Shape

@@ -30,7 +30,7 @@ function setup() {
   pop();
   }
   for (let i = 0.; i < 8.; i += 0.5) {
-  if ((Math.abs((i % 1.) - 0.5) < 0.0001)) {
+  if (((i % 1.) === 0.5)) {
   push();
   translate((i * 100.0), (5. * 100.0));
   bubble();

@@ -104,8 +104,8 @@ str generateCoordExpr(Expr expr)
 str generateCond(Cond cond) {
   switch (cond) {
     case \isEqual(Expr l, Expr r):
-      return "(Math.abs(<generateExprValue(l)> - <generateExprValue(r)>) \< 0.0001)";
-  } // TODO Decision: Not strict equals due to floating point issues with 0.5 scaling stuff using real and not int
+      return "(<generateExprValue(l)> === <generateExprValue(r)>)";
+  } 
   return "false";
 }
 

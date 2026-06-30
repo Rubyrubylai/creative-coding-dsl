@@ -104,7 +104,7 @@ crode::AST::Expr loadExpr((Expr)`<Expr l> + <Expr r>`)
 crode::AST::Expr loadExpr((Expr)`<Expr l> - <Expr r>`)
   = crode::AST::sub(loadExpr(l), loadExpr(r), src=l@\loc);
 
-crode::AST::Cond loadCond((Cond)`<Expr l> is <Expr r>`)
+crode::AST::Cond loadCond((Cond)`<Expr l> equals <Expr r>`)
   = crode::AST::isEqual(loadExpr(l), loadExpr(r), src=l@\loc);
 
 crode::AST::Statement loadStatement((Statement)`let <Id id> = <Expr expr>`)
