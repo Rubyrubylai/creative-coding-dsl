@@ -4,5 +4,5 @@ canvas "Kirby" {
     color black
   }
 
-  draw test at (0.3, 0.3)
+  draw test at (rand(0,8), rand(0,6))
 }

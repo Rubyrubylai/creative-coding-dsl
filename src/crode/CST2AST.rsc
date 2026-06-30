@@ -41,8 +41,8 @@ crode::AST::Color loadColor((Color)`pink`) = \pink();
 crode::AST::Color loadColor((Color)`black`) = \black();
 crode::AST::Color loadColor((Color)`orange`) = \orange();
 
-crode::AST::Point loadPoint((Point)`( <NumberLiteral x> , <NumberLiteral y> )`)
-  = \point(loadNumber(x), loadNumber(y), src=x@\loc);
+crode::AST::Point loadPoint((Point)`( <Expr x> , <Expr y> )`)
+  = \mkPoint(loadExpr(x), loadExpr(y), src=x@\loc);
 
 crode::AST::Shape loadShape((Shape)`<CircleShape circleShape>`)
   = loadCircleShape(circleShape);
@@ -76,6 +76,12 @@ crode::AST::Shape loadRectShape((RectShape)`rect { width <NumberLiteral width> h
 
 crode::AST::Expr loadExpr((Expr)`<Shape shapeTree>`)
   = \shapeExpr(loadShape(shapeTree), src=shapeTree@\loc);
+
+crode::AST::Expr loadExpr((Expr)`rand(<NumberLiteral min>, <NumberLiteral max>)`)
+  = \randExpr(loadNumber(min), loadNumber(max), src=min@\loc);
+
+crode::AST::Expr loadExpr((Expr)`<NumberLiteral val>`)
+  = \number(loadNumber(val), src=val@\loc);
 
 crode::AST::Statement loadStatement((Statement)`let <Id id> = <Expr expr>`)
   = \assignment(loadId(id), loadExpr(expr), src=id@\loc);

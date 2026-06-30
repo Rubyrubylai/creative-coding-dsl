@@ -48,6 +48,8 @@ syntax Statement
 
 syntax Expr
   = shape: Shape
+  | randExpr: RandExpr
+  | number: NumberLiteral
   ;
 
 syntax Shape
@@ -98,5 +100,8 @@ syntax RectShape
   "}"
   ;
 
+syntax RandExpr
+  = rand: "rand" "(" NumberLiteral "," NumberLiteral ")";
+
 syntax Point
-  = point: "(" NumberLiteral "," NumberLiteral ")";
+  = point: "(" Expr "," Expr ")";

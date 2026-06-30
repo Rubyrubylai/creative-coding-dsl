@@ -9,7 +9,9 @@ data Canvas(loc src=|unknown:///|)
   = \canvas(str name, list[Statement] statements);
 
 data Expr(loc src=|unknown:///|)
-  = \shapeExpr(Shape shape);
+  = \shapeExpr(Shape shape)
+  | \randExpr(real min, real max)
+  | \number(real val);
 
 data Statement(loc src=|unknown:///|)
   = \assignment(str name, Expr expr)
@@ -37,4 +39,4 @@ data Color(loc src=|unknown:///|)
   ;
 
 data Point(loc src=|unknown:///|)
-  = \point(real x, real y);
+  = \mkPoint(Expr x, Expr y);

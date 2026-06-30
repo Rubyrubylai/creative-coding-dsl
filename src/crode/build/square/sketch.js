@@ -3,7 +3,8 @@
 function test() {
   fill("black");
   noStroke();
-  rect(0, 0, 50.00, 80.00)}
+  square(0, 0, 50.00);
+}
 
 function setup() {
   createCanvas(800, 600);
@@ -11,7 +12,7 @@ function setup() {
   background(255);
 
   push();
-  translate(40.00, 40.00);
+  translate(762.4319981082528000, 543.90046807527054000);
   test();
   pop();
 }
