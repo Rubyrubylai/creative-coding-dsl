@@ -95,11 +95,17 @@ crode::AST::Expr loadExpr((Expr)`<Id id>`)
 crode::AST::Expr loadExpr((Expr)`<Expr l> / <Expr r>`)
   = crode::AST::div(loadExpr(l), loadExpr(r), src=l@\loc);
 
+crode::AST::Expr loadExpr((Expr)`<Expr l> mod <Expr r>`)
+  = crode::AST::div(loadExpr(l), loadExpr(r), src=l@\loc);
+
 crode::AST::Expr loadExpr((Expr)`<Expr l> + <Expr r>`)
   = crode::AST::add(loadExpr(l), loadExpr(r), src=l@\loc);
 
 crode::AST::Expr loadExpr((Expr)`<Expr l> - <Expr r>`)
   = crode::AST::sub(loadExpr(l), loadExpr(r), src=l@\loc);
+
+crode::AST::Cond loadCond((Cond)`<Expr l> is <Expr r>`)
+  = crode::AST::isEqual(loadExpr(l), loadExpr(r), src=l@\loc);
 
 crode::AST::Statement loadStatement((Statement)`let <Id id> = <Expr expr>`)
   = \assignment(loadId(id), loadExpr(expr), src=id@\loc);
@@ -112,6 +118,12 @@ crode::AST::Statement loadStatement((Statement)`repeat <IntLiteral count> { <Sta
 
 crode::AST::Statement loadStatement((Statement)`for <Id var> in <NumberLiteral from> to <NumberLiteral to> step <NumberLiteral step> { <Statement* statements> }`)
   = \forLoop(loadId(var), loadNumber(from), loadNumber(to), loadNumber(step), loadStatements(statements), src=var@\loc);
+
+crode::AST::Statement loadStatement((Statement)`if <Cond cond> { <Statement* thenBranch> }`)
+  = \ifThen(loadCond(cond), loadStatements(thenBranch), src=cond@\loc);
+
+crode::AST::Statement loadStatement((Statement)`if <Cond cond> { <Statement* thenBranch> } else { <Statement* elseBranch> }`)
+  = \ifElse(loadCond(cond), loadStatements(thenBranch), loadStatements(elseBranch), src=cond@\loc);
 
 list[crode::AST::Statement] loadStatements(Statement* statements)
   = [loadStatement(statement) | statement <- statements];

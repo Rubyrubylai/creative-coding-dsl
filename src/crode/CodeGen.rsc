@@ -91,6 +91,7 @@ str generateExprValue(Expr expr) {
     case \idExpr(str name): return name;
     case \mul(Expr l, Expr r): return "(<generateExprValue(l)> * <generateExprValue(r)>)";
     case \div(Expr l, Expr r): return "(<generateExprValue(l)> / <generateExprValue(r)>)";
+    case \mod(Expr l, Expr r): return "(<generateExprValue(l)> % <generateExprValue(r)>)";
     case \add(Expr l, Expr r): return "(<generateExprValue(l)> + <generateExprValue(r)>)";
     case \sub(Expr l, Expr r): return "(<generateExprValue(l)> - <generateExprValue(r)>)";
   }
@@ -99,6 +100,14 @@ str generateExprValue(Expr expr) {
 
 str generateCoordExpr(Expr expr)
   = "(<generateExprValue(expr)> * <scaleUnit>)";
+
+str generateCond(Cond cond) {
+  switch (cond) {
+    case \isEqual(Expr l, Expr r):
+      return "(Math.abs(<generateExprValue(l)> - <generateExprValue(r)>) \< 0.0001)";
+  } // TODO Decision: Not strict equals due to floating point issues with 0.5 scaling stuff using real and not int
+  return "false";
+}
 
 str generateStatement(Statement statement) {
   switch (statement) {
@@ -128,9 +137,14 @@ str generateDefinitionsFor(Statement statement) {
     case \assignment(_, _): return generateStatement(statement);
     case \repeat(_, list[Statement] statements): return generateDefinitions(statements); // TODO Documentation: Do not repeat the JS function declaration (also, they are static, can we randomize radius, width, height etc?)
     case \forLoop(_, _, _, _, list[Statement] statements): return generateDefinitions(statements);
+    case \ifThen(_, list[Statement] thenBranch):
+      return generateDefinitions(thenBranch);
+    case \ifElse(_, list[Statement] thenBranch, list[Statement] elseBranch):
+      return generateDefinitions(thenBranch) + generateDefinitions(elseBranch);
   }
   return "";
 }
+
 str generateDrawCalls(list[Statement] statements)
   = joinStrings([generateDrawCallsFor(s) | s <- statements]);
 
@@ -144,6 +158,16 @@ str generateDrawCallsFor(Statement statement) {
     case \forLoop(str var, real from, real to, real step, list[Statement] statements):
       return "  for (let <var> = <from>; <var> \< <to>; <var> += <step>) {\n"
            + generateDrawCalls(statements)
+           + "  }\n";
+    case \ifThen(Cond cond, list[Statement] thenBranch):
+      return "  if (<generateCond(cond)>) {\n"
+           + generateDrawCalls(thenBranch)
+           + "  }\n";
+    case \ifElse(Cond cond, list[Statement] thenBranch, list[Statement] elseBranch):
+      return "  if (<generateCond(cond)>) {\n"
+           + generateDrawCalls(thenBranch)
+           + "  } else {\n"
+           + generateDrawCalls(elseBranch)
            + "  }\n";
   }
   return "";

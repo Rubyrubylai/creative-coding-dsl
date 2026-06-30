@@ -15,15 +15,21 @@ data Expr(loc src=|unknown:///|)
   | \idExpr(str name)
   | \mul(Expr left, Expr right)
   | \div(Expr left, Expr right)
+  | \mod(Expr left, Expr right)
   | \add(Expr left, Expr right)
   | \sub(Expr left, Expr right)
   ;
+
+data Cond(loc src=|unknown:///|)
+  = \isEqual(Expr left, Expr right);
 
 data Statement(loc src=|unknown:///|)
   = \assignment(str name, Expr expr)
   | \draw(str name, Point point)
   | \repeat(int count, list[Statement] statements)
   | \forLoop(str var, real from, real to, real step, list[Statement] statements)
+  | \ifThen(Cond cond, list[Statement] thenBranch)
+  | \ifElse(Cond cond, list[Statement] thenBranch, list[Statement] elseBranch)
   ;
 
 data Shape(loc src=|unknown:///|)

@@ -47,6 +47,8 @@ syntax Statement
   | draw: "draw" Id "at" Point
   | repeat: "repeat" IntLiteral "{" Statement* "}"
   | forLoop: "for" Id "in" NumberLiteral "to" NumberLiteral "step" NumberLiteral "{" Statement* "}"
+  | ifThen: "if" Cond "{" Statement* "}"
+  | ifElse: "if" Cond "{" Statement* "}" "else" "{" Statement* "}"
   ;
 
 syntax Expr
@@ -57,8 +59,13 @@ syntax Expr
   | bracket "(" Expr ")"
   > left mul: Expr "*" Expr
   > left div: Expr "/" Expr
+  > left modOp: Expr "mod" Expr
   > left add: Expr "+" Expr
   > left sub: Expr "-" Expr
+  ;
+
+syntax Cond // TODO Decision: "is" or "==" ? 
+  = isEqual: Expr "is" Expr
   ;
 
 syntax Shape

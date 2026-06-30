@@ -9,12 +9,20 @@ canvas "Snow" {
         color blue
     }
 
+    let block = square {
+        size 0.3
+        color red
+    }
+
     repeat 300 {
         draw snowflake at (rand(0,7.8), rand(0,5.8))
     }
 
-    for i in 0 to 8 step 0.6 {
-        draw bubble at (i, 5)
-        draw bubble at (i+0.1, 5.3)
+    for i in 0 to 8 step 0.5 {
+        if i mod 1 is 0.5 {
+            draw bubble at (i, 5)
+        } else {
+            draw block at (i, 5)
+        }
     }
 }
