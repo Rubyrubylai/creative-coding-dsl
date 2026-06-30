@@ -89,6 +89,18 @@ crode::AST::Expr loadExpr((Expr)`<NumberLiteral val>`)
 crode::AST::Expr loadExpr((Expr)`<Id id>`)
   = \idExpr(loadId(id), src=id@\loc);
 
+  crode::AST::Expr loadExpr((Expr)`<Expr l> * <Expr r>`)
+  = crode::AST::mul(loadExpr(l), loadExpr(r), src=l@\loc);
+
+crode::AST::Expr loadExpr((Expr)`<Expr l> / <Expr r>`)
+  = crode::AST::div(loadExpr(l), loadExpr(r), src=l@\loc);
+
+crode::AST::Expr loadExpr((Expr)`<Expr l> + <Expr r>`)
+  = crode::AST::add(loadExpr(l), loadExpr(r), src=l@\loc);
+
+crode::AST::Expr loadExpr((Expr)`<Expr l> - <Expr r>`)
+  = crode::AST::sub(loadExpr(l), loadExpr(r), src=l@\loc);
+
 crode::AST::Statement loadStatement((Statement)`let <Id id> = <Expr expr>`)
   = \assignment(loadId(id), loadExpr(expr), src=id@\loc);
 

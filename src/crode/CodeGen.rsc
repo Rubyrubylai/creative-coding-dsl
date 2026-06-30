@@ -83,20 +83,21 @@ str generateExpr(Expr expr) {
   return "";
 }
 
-str generateCoordExpr(Expr expr) {
+str generateCoordValue(Expr expr) {
   switch (expr) {
-    case \number(real v):
-      return "<v * scaleUnit>";
-    case \randExpr(real min, real max): { // TODO Documentation: Randomization at compile time
-      real jsMin = min * scaleUnit;
-      real jsMax = max * scaleUnit;
-      return "random(<jsMin>, <jsMax>)";
-    }
-    case \idExpr(str name):
-      return "(<name> * <scaleUnit>)";
+    case \number(real v): return "<v>";
+    case \randExpr(real min, real max): return "random(<min>, <max>)"; // unscaled here
+    case \idExpr(str name): return name;
+    case \mul(Expr l, Expr r): return "(<generateCoordValue(l)> * <generateCoordValue(r)>)";
+    case \div(Expr l, Expr r): return "(<generateCoordValue(l)> / <generateCoordValue(r)>)";
+    case \add(Expr l, Expr r): return "(<generateCoordValue(l)> + <generateCoordValue(r)>)";
+    case \sub(Expr l, Expr r): return "(<generateCoordValue(l)> - <generateCoordValue(r)>)";
   }
   return "0";
 }
+
+str generateCoordExpr(Expr expr)
+  = "(<generateCoordValue(expr)> * <scaleUnit>)";
 
 str generateStatement(Statement statement) {
   switch (statement) {

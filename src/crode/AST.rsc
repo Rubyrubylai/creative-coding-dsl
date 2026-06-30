@@ -13,6 +13,10 @@ data Expr(loc src=|unknown:///|)
   | \randExpr(real min, real max)
   | \number(real val)
   | \idExpr(str name)
+  | \mul(Expr left, Expr right)
+  | \div(Expr left, Expr right)
+  | \add(Expr left, Expr right)
+  | \sub(Expr left, Expr right)
   ;
 
 data Statement(loc src=|unknown:///|)

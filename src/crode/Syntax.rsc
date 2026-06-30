@@ -54,6 +54,11 @@ syntax Expr
   | randExpr: RandExpr
   | number: NumberLiteral
   | idExpr: Id
+  | bracket "(" Expr ")"
+  > left mul: Expr "*" Expr
+  > left div: Expr "/" Expr
+  > left add: Expr "+" Expr
+  > left sub: Expr "-" Expr
   ;
 
 syntax Shape

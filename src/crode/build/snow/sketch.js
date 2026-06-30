@@ -19,13 +19,17 @@ function setup() {
 
   for (let i = 0; i < 300; i++) {
   push();
-  translate(random(0.0, 780.00), random(0.0, 580.00));
+  translate((random(0., 7.8) * 100.0), (random(0., 5.8) * 100.0));
   snowflake();
   pop();
   }
   for (let i = 0.; i < 8.; i += 0.6) {
   push();
-  translate((i * 100.0), 500.0);
+  translate((i * 100.0), (5. * 100.0));
+  bubble();
+  pop();
+  push();
+  translate(((i + 0.1) * 100.0), (5.3 * 100.0));
   bubble();
   pop();
   }
