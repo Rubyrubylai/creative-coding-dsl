@@ -62,8 +62,8 @@ crode::AST::Shape loadShape((Shape)`<SquareShape squareShape>`)
 crode::AST::Shape loadShape((Shape)`<RectShape rectShape>`)
   = loadRectShape(rectShape);
 
-crode::AST::Shape loadCircleShape((CircleShape)`circle { radius <NumberLiteral radius> color <Color color> }`)
-  = \circle(loadNumber(radius), loadColor(color), src=radius@\loc);
+crode::AST::Shape loadCircleShape((CircleShape)`circle { radius <Expr radius> color <Color color> }`)
+  = \circle(loadExpr(radius), loadColor(color), src=radius@\loc);
 
 crode::AST::Shape loadEllipseShape((EllipseShape)`ellipse { width <NumberLiteral width> height <NumberLiteral height> color <Color color> }`)
   = \ellipse(loadNumber(width), loadNumber(height), loadColor(color), src=width@\loc);

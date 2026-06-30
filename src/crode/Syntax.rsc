@@ -71,7 +71,7 @@ syntax Shape
 
 syntax CircleShape
   = circle: "circle" "{"
-    "radius" NumberLiteral
+    "radius" Expr
     "color" Color
   "}"
   ;

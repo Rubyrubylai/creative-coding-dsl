@@ -38,8 +38,9 @@ str joinStrings(list[str] parts) {
 
 str generateShape(Shape shape) {
   switch (shape) {
-    case \circle(real radius, Color color): {
-      real diameter = radius * 2.0 * scaleUnit;
+    case \circle(Expr radius, Color color): {
+      // real diameter = radius * 2.0 * scaleUnit;
+      str diameter = "(<generateExprValue(radius)> * 2.0 * <scaleUnit>)";
       return "  fill(<colorToJs(color)>);\n"
            + "  noStroke();\n"
            + "  circle(0, 0, <diameter>);\n";
@@ -83,21 +84,21 @@ str generateExpr(Expr expr) {
   return "";
 }
 
-str generateCoordValue(Expr expr) {
+str generateExprValue(Expr expr) {
   switch (expr) {
     case \number(real v): return "<v>";
     case \randExpr(real min, real max): return "random(<min>, <max>)"; // unscaled here
     case \idExpr(str name): return name;
-    case \mul(Expr l, Expr r): return "(<generateCoordValue(l)> * <generateCoordValue(r)>)";
-    case \div(Expr l, Expr r): return "(<generateCoordValue(l)> / <generateCoordValue(r)>)";
-    case \add(Expr l, Expr r): return "(<generateCoordValue(l)> + <generateCoordValue(r)>)";
-    case \sub(Expr l, Expr r): return "(<generateCoordValue(l)> - <generateCoordValue(r)>)";
+    case \mul(Expr l, Expr r): return "(<generateExprValue(l)> * <generateExprValue(r)>)";
+    case \div(Expr l, Expr r): return "(<generateExprValue(l)> / <generateExprValue(r)>)";
+    case \add(Expr l, Expr r): return "(<generateExprValue(l)> + <generateExprValue(r)>)";
+    case \sub(Expr l, Expr r): return "(<generateExprValue(l)> - <generateExprValue(r)>)";
   }
   return "0";
 }
 
 str generateCoordExpr(Expr expr)
-  = "(<generateCoordValue(expr)> * <scaleUnit>)";
+  = "(<generateExprValue(expr)> * <scaleUnit>)";
 
 str generateStatement(Statement statement) {
   switch (statement) {

@@ -1,6 +1,6 @@
 canvas "Snow" {
     let snowflake = circle {
-        radius 0.05
+        radius rand(0.02, 0.06)
         color black
     }
 

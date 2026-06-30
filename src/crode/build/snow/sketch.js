@@ -3,13 +3,13 @@
 function snowflake() {
   fill("black");
   noStroke();
-  circle(0, 0, 10.0000);
+  circle(0, 0, (random(0.02, 0.06) * 2.0 * 100.0));
 }
 
 function bubble() {
   fill("blue");
   noStroke();
-  circle(0, 0, 40.000);
+  circle(0, 0, (0.2 * 2.0 * 100.0));
 }
 
 function setup() {
