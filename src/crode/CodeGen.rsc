@@ -80,13 +80,7 @@ str generateShape(Shape shape) {
 
 str generateExpr(Expr expr) {
   switch (expr) {
-    case \shapeExpr(Shape shape): return generateShape(shape);
-    // case \randExpr(real min, real max): {
-    //   real jsMin = min * scaleUnit;
-    //   real jsMax = max * scaleUnit;
-    //   return "random(<jsMin>, <jsMax>)";
-    // } // TODO fix rand
-    
+    case \shapeExpr(Shape shape): return generateShape(shape);    
   }
   return "";
 }
