@@ -85,17 +85,17 @@ str generateExpr(Expr expr) {
   return "";
 }
 
-real evalExpr(Expr e) {
-  switch(e) {
+str generateCoordExpr(Expr expr) {
+  switch (expr) {
     case \number(real v):
-      return v;
-
-    case \randExpr(real min, real max): {
-      real r = arbReal();
-      return r * (max - min) + min;
+      return "<v * scaleUnit>";
+    case \randExpr(real min, real max): { // TODO Documentation: Randomization at compile time
+      real jsMin = min * scaleUnit;
+      real jsMax = max * scaleUnit;
+      return "random(<jsMin>, <jsMax>)";
     }
   }
-  return "";
+  return "0";
 }
 
 str generateStatement(Statement statement) {
@@ -107,8 +107,8 @@ str generateStatement(Statement statement) {
     }
     // TODO Extend \assignment to include variable assignments (let y = 5)
     case \draw(str name, \mkPoint(Expr x, Expr y)): {
-      real px = evalExpr(x) * scaleUnit;
-      real py = evalExpr(y) * scaleUnit;
+      str px = generateCoordExpr(x);
+      str py = generateCoordExpr(y);
       return "  push();\n"
            + "  translate(<px>, <py>);\n"
            + "  <name>();\n"
