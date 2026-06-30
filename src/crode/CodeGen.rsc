@@ -92,6 +92,8 @@ str generateCoordExpr(Expr expr) {
       real jsMax = max * scaleUnit;
       return "random(<jsMin>, <jsMax>)";
     }
+    case \idExpr(str name):
+      return "(<name> * <scaleUnit>)";
   }
   return "0";
 }
@@ -123,6 +125,7 @@ str generateDefinitionsFor(Statement statement) {
   switch (statement) {
     case \assignment(_, _): return generateStatement(statement);
     case \repeat(_, list[Statement] statements): return generateDefinitions(statements); // TODO Documentation: Do not repeat the JS function declaration (also, they are static, can we randomize radius, width, height etc?)
+    case \forLoop(_, _, _, _, list[Statement] statements): return generateDefinitions(statements);
   }
   return "";
 }
@@ -134,6 +137,10 @@ str generateDrawCallsFor(Statement statement) {
     case \draw(_, _): return generateStatement(statement);
     case \repeat(int count, list[Statement] statements):
       return "  for (let i = 0; i \< <count>; i++) {\n"
+           + generateDrawCalls(statements)
+           + "  }\n";
+    case \forLoop(str var, real from, real to, real step, list[Statement] statements):
+      return "  for (let <var> = <from>; <var> \< <to>; <var> += <step>) {\n"
            + generateDrawCalls(statements)
            + "  }\n";
   }

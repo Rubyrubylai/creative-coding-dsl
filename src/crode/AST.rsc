@@ -11,12 +11,15 @@ data Canvas(loc src=|unknown:///|)
 data Expr(loc src=|unknown:///|)
   = \shapeExpr(Shape shape)
   | \randExpr(real min, real max)
-  | \number(real val);
+  | \number(real val)
+  | \idExpr(str name)
+  ;
 
 data Statement(loc src=|unknown:///|)
   = \assignment(str name, Expr expr)
   | \draw(str name, Point point)
   | \repeat(int count, list[Statement] statements)
+  | \forLoop(str var, real from, real to, real step, list[Statement] statements)
   ;
 
 data Shape(loc src=|unknown:///|)

@@ -86,6 +86,9 @@ crode::AST::Expr loadExpr((Expr)`rand(<NumberLiteral min>, <NumberLiteral max>)`
 crode::AST::Expr loadExpr((Expr)`<NumberLiteral val>`)
   = \number(loadNumber(val), src=val@\loc);
 
+crode::AST::Expr loadExpr((Expr)`<Id id>`)
+  = \idExpr(loadId(id), src=id@\loc);
+
 crode::AST::Statement loadStatement((Statement)`let <Id id> = <Expr expr>`)
   = \assignment(loadId(id), loadExpr(expr), src=id@\loc);
 
@@ -94,6 +97,9 @@ crode::AST::Statement loadStatement((Statement)`draw <Id id> at <Point point>`)
 
 crode::AST::Statement loadStatement((Statement)`repeat <IntLiteral count> { <Statement* statements> }`)
   = \repeat(loadInt(count), loadStatements(statements), src=count@\loc);
+
+crode::AST::Statement loadStatement((Statement)`for <Id var> in <NumberLiteral from> to <NumberLiteral to> step <NumberLiteral step> { <Statement* statements> }`)
+  = \forLoop(loadId(var), loadNumber(from), loadNumber(to), loadNumber(step), loadStatements(statements), src=var@\loc);
 
 list[crode::AST::Statement] loadStatements(Statement* statements)
   = [loadStatement(statement) | statement <- statements];

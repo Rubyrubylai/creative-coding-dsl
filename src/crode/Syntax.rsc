@@ -46,12 +46,14 @@ syntax Statement
   = assignment: "let" Id "=" Expr
   | draw: "draw" Id "at" Point
   | repeat: "repeat" IntLiteral "{" Statement* "}"
+  | forLoop: "for" Id "in" NumberLiteral "to" NumberLiteral "step" NumberLiteral "{" Statement* "}"
   ;
 
 syntax Expr
   = shape: Shape
   | randExpr: RandExpr
   | number: NumberLiteral
+  | idExpr: Id
   ;
 
 syntax Shape
