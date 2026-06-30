@@ -96,7 +96,7 @@ crode::AST::Expr loadExpr((Expr)`<Expr l> / <Expr r>`)
   = crode::AST::div(loadExpr(l), loadExpr(r), src=l@\loc);
 
 crode::AST::Expr loadExpr((Expr)`<Expr l> mod <Expr r>`)
-  = crode::AST::div(loadExpr(l), loadExpr(r), src=l@\loc);
+  = \mod(loadExpr(l), loadExpr(r), src=l@\loc);
 
 crode::AST::Expr loadExpr((Expr)`<Expr l> + <Expr r>`)
   = crode::AST::add(loadExpr(l), loadExpr(r), src=l@\loc);
