@@ -1,0 +1,10 @@
+canvas "Snow" {
+    let snowflake = circle {
+        radius 0.05
+        color black
+    }
+
+    repeat 300 {
+        draw snowflake at (rand(0,7.8), rand(0,5.8))
+    }
+}

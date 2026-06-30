@@ -16,6 +16,7 @@ data Expr(loc src=|unknown:///|)
 data Statement(loc src=|unknown:///|)
   = \assignment(str name, Expr expr)
   | \draw(str name, Point point)
+  | \repeat(int count, list[Statement] statements)
   ;
 
 data Shape(loc src=|unknown:///|)

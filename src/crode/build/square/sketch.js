@@ -12,7 +12,7 @@ function setup() {
   background(255);
 
   push();
-  translate(762.4319981082528000, 543.90046807527054000);
+  translate(random(0.0, 800.0), random(0.0, 600.0));
   test();
   pop();
 }

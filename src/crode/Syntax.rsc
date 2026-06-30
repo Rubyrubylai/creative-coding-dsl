@@ -26,6 +26,7 @@ lexical NumberLiteral
   = "-"? [0-9]+ "." [0-9]+
   | "-"? [0-9]+
   ;
+lexical IntLiteral = [0-9]+ !>> [0-9];
 lexical Color
 = "white"
 | "yellow"
@@ -44,6 +45,7 @@ start syntax Canvas
 syntax Statement
   = assignment: "let" Id "=" Expr
   | draw: "draw" Id "at" Point
+  | repeat: "repeat" IntLiteral "{" Statement* "}"
   ;
 
 syntax Expr

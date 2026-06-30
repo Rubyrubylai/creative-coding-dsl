@@ -3,8 +3,6 @@ module crode::CodeGen
 import IO;
 import String;
 
-import util::Math;
-
 import crode::AST;
 import crode::Parser;
 import crode::CST2AST;
@@ -119,10 +117,28 @@ str generateStatement(Statement statement) {
 }
 
 str generateDefinitions(list[Statement] statements)
-  = joinStrings([generateStatement(statement) | statement <- statements, \assignment(_, _) := statement]);
+  = joinStrings([generateDefinitionsFor(s) | s <- statements]);
 
+str generateDefinitionsFor(Statement statement) {
+  switch (statement) {
+    case \assignment(_, _): return generateStatement(statement);
+    case \repeat(_, list[Statement] statements): return generateDefinitions(statements); // TODO Documentation: Do not repeat the JS function declaration (also, they are static, can we randomize radius, width, height etc?)
+  }
+  return "";
+}
 str generateDrawCalls(list[Statement] statements)
-  = joinStrings([generateStatement(statement) | statement <- statements, \draw(_, _) := statement]);
+  = joinStrings([generateDrawCallsFor(s) | s <- statements]);
+
+str generateDrawCallsFor(Statement statement) {
+  switch (statement) {
+    case \draw(_, _): return generateStatement(statement);
+    case \repeat(int count, list[Statement] statements):
+      return "  for (let i = 0; i \< <count>; i++) {\n"
+           + generateDrawCalls(statements)
+           + "  }\n";
+  }
+  return "";
+}
 
 public str generateP5(Canvas canvas) {
   switch (canvas) {

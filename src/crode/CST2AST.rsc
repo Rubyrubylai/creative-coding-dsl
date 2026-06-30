@@ -31,6 +31,9 @@ str loadId(Id id)
 real loadNumber(NumberLiteral n)
   = toReal("<n>");
 
+int loadInt(IntLiteral n)
+  = toInt("<n>");
+
 crode::AST::Color loadColor((Color)`white`) = \white();
 crode::AST::Color loadColor((Color)`yellow`) = \yellow();
 crode::AST::Color loadColor((Color)`green`) = \green();
@@ -88,6 +91,9 @@ crode::AST::Statement loadStatement((Statement)`let <Id id> = <Expr expr>`)
 
 crode::AST::Statement loadStatement((Statement)`draw <Id id> at <Point point>`)
   = \draw(loadId(id), loadPoint(point), src=id@\loc);
+
+crode::AST::Statement loadStatement((Statement)`repeat <IntLiteral count> { <Statement* statements> }`)
+  = \repeat(loadInt(count), loadStatements(statements), src=count@\loc);
 
 list[crode::AST::Statement] loadStatements(Statement* statements)
   = [loadStatement(statement) | statement <- statements];
