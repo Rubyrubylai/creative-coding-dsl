@@ -62,8 +62,11 @@ bool checkStatements(list[Statement] statements, set[str] shapeNames, set[str] n
           return false;
         }
       }
-      case \forLoop(str var, _, _, _, list[Statement] body): {
+      case \forLoop(str var, real from, real to, real step, list[Statement] body): {
         if (var in visibleShapeNames || var in visibleNumberNames) {
+          return false;
+        }
+        if (!checkForLoopRange(from, to, step)) {
           return false;
         }
         if (!checkStatements(body, visibleShapeNames, visibleNumberNames + {var})) {
@@ -87,6 +90,10 @@ bool checkStatements(list[Statement] statements, set[str] shapeNames, set[str] n
   }
   return true;
 }
+
+// for loop range
+bool checkForLoopRange(real from, real to, real step)
+  = from < to && step > 0.0;
 
 // shape parameter can only be numExpr
 bool checkShape(Shape shape, set[str] numberNames) {
