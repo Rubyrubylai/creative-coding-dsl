@@ -20,8 +20,8 @@ data NumExpr(loc src=|unknown:///|)
   ;
 
 data Expr(loc src=|unknown:///|)
-  = \shapeExpr(Shape shape)
-  | \numExpr(NumExpr expr)
+  = \shapeValue(Shape shape)
+  | \numValue(NumExpr expr)
   ;
 
 data Cond(loc src=|unknown:///|)

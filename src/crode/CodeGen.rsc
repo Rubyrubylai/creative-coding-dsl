@@ -128,12 +128,12 @@ str generateCond(Cond cond) {
 
 str generateStatement(Statement statement) {
   switch (statement) {
-    case \assignment(str name, \shapeExpr(Shape shape)): {
+    case \assignment(str name, \shapeValue(Shape shape)): {
       return "function <name>() {\n" // TODO(doc): specify block scope
            + generateShape(shape)
             + "}\n\n";
     }
-    case \assignment(str name, \numExpr(NumExpr expr)): {
+    case \assignment(str name, \numValue(NumExpr expr)): {
       return "  let <name> = <generateNumExprValue(expr)>;\n";
     }
     case \draw(str name, \mkPoint(NumExpr x, NumExpr y), NumExpr angle): {

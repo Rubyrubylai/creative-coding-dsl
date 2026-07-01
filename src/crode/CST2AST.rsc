@@ -87,10 +87,10 @@ crode::AST::Shape loadShapeExpr((ShapeExpr)`<Shape shapeTree>`)
   = loadShape(shapeTree);
 
 crode::AST::Expr loadExpr((Expr)`<ShapeExpr expr>`)
-  = \shapeExpr(loadShapeExpr(expr), src=expr@\loc);
+  = \shapeValue(loadShapeExpr(expr), src=expr@\loc);
 
 crode::AST::Expr loadExpr((Expr)`<NumExpr expr>`)
-  = \numExpr(loadNumExpr(expr), src=expr@\loc);
+  = \numValue(loadNumExpr(expr), src=expr@\loc);
 
 crode::AST::NumExpr loadNumExpr((NumExpr)`random(<NumberLiteral min>, <NumberLiteral max>)`)
   = \randExpr(loadNumber(min), loadNumber(max), src=min@\loc);
