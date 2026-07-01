@@ -54,7 +54,7 @@ start syntax Canvas
 
 syntax Statement
   = assignment: "let" Id "=" Expr
-  | rotatedDraw: "draw" Id "at" Point "rotate" Expr
+  | rotatedDraw: "draw" Id "at" Point "rotate" NumExpr
   | draw: "draw" Id "at" Point
   | repeat: "repeat" IntLiteral "{" Statement* "}"
   | forLoop: "for" Id "in" NumberLiteral "to" NumberLiteral "step" NumberLiteral "{" Statement* "}"
@@ -63,24 +63,32 @@ syntax Statement
   ;
 
 syntax Expr
+  = shapeExpr: ShapeExpr
+  | numExpr: NumExpr
+  ;
+
+syntax ShapeExpr
   = shape: Shape
-  | randExpr: RandExpr
+  ;
+
+syntax NumExpr
+  = randExpr: RandExpr
   | number: NumberLiteral
   | idExpr: Id
-  | bracket "(" Expr ")"
-  > left mul: Expr "*" Expr
-  > left div: Expr "/" Expr
-  > left modOp: Expr "mod" Expr
-  > left add: Expr "+" Expr
-  > left sub: Expr "-" Expr
+  | bracket "(" NumExpr ")"
+  > left mul: NumExpr "*" NumExpr
+  > left div: NumExpr "/" NumExpr
+  > left modOp: NumExpr "mod" NumExpr
+  > left add: NumExpr "+" NumExpr
+  > left sub: NumExpr "-" NumExpr
   ;
 
 syntax Cond // TODO Decision: "is", "equals", or "==" ? 
-  = isEqual: Expr "equals" Expr
-  | isGreater: Expr "greaterThan" Expr
-  | isLess: Expr "lessThan" Expr
-  | isGreaterEqual: Expr "atLeast" Expr
-  | isLessEqual: Expr "atMost" Expr
+  = isEqual: NumExpr "equals" NumExpr
+  | isGreater: NumExpr "greaterThan" NumExpr
+  | isLess: NumExpr "lessThan" NumExpr
+  | isGreaterEqual: NumExpr "atLeast" NumExpr
+  | isLessEqual: NumExpr "atMost" NumExpr
   ;
 
 syntax Shape
@@ -94,47 +102,47 @@ syntax Shape
 
 syntax CircleShape
   = circle: "circle" "{"
-    "radius" Expr
+    "radius" NumExpr
     "color" Color
   "}"
   ;
 
 syntax EllipseShape
   = ellipse: "ellipse" "{"
-    "width" Expr
-    "height" Expr
+    "width" NumExpr
+    "height" NumExpr
     "color" Color
   "}"
   ;
 
 syntax ArcShape
   = arc: "arc" "{"
-    "width" Expr
-    "height" Expr
-    "start" Expr
-    "stop" Expr
+    "width" NumExpr
+    "height" NumExpr
+    "start" NumExpr
+    "stop" NumExpr
     "color" Color
   "}"
   ;
 
 syntax SquareShape
   = square: "square" "{"
-    "size" Expr
+    "size" NumExpr
     "color" Color
   "}"
   ;
 
 syntax RectShape
   = rect: "rect" "{"
-    "width" Expr
-    "height" Expr
+    "width" NumExpr
+    "height" NumExpr
     "color" Color
   "}"
   ;
 
 syntax StarShape
   = star: "star" "{"
-    "size" Expr
+    "size" NumExpr
     "color" Color
   "}"
   ;
@@ -143,4 +151,4 @@ syntax RandExpr
   = random: "random" "(" NumberLiteral "," NumberLiteral ")";
 
 syntax Point
-  = point: "(" Expr "," Expr ")";
+  = point: "(" NumExpr "," NumExpr ")";

@@ -36,44 +36,44 @@ str joinStrings(list[str] parts) {
 
 str generateShape(Shape shape) {
   switch (shape) {
-    case \circle(Expr radius, Color color): {
-      str diameter = "(<generateExprValue(radius)> * 2.0)";
+    case \circle(NumExpr radius, Color color): {
+      str diameter = "(<generateNumExprValue(radius)> * 2.0)";
       return "  fill(<colorToJs(color)>);\n"
            + "  noStroke();\n"
            + "  circle(0, 0, <diameter>);\n";
     }
-    case \ellipse(Expr width, Expr height, Color color): {
-      str jsWidth = "(<generateExprValue(width)>)";
-      str jsHeight = "(<generateExprValue(height)>)";
+    case \ellipse(NumExpr width, NumExpr height, Color color): {
+      str jsWidth = "(<generateNumExprValue(width)>)";
+      str jsHeight = "(<generateNumExprValue(height)>)";
       return "  fill(<colorToJs(color)>);\n"
            + "  noStroke();\n"
            + "  ellipse(0, 0, <jsWidth>, <jsHeight>);\n";
     }
-    case \arc(Expr width, Expr height, Expr startAngle, Expr stopAngle, Color color): {
-      str jsWidth = "(<generateExprValue(width)>)";
-      str jsHeight = "(<generateExprValue(height)>)";
-      str jsStartAngle = "(<generateExprValue(startAngle)>)";
-      str jsStopAngle = "(<generateExprValue(stopAngle)>)";
+    case \arc(NumExpr width, NumExpr height, NumExpr startAngle, NumExpr stopAngle, Color color): {
+      str jsWidth = "(<generateNumExprValue(width)>)";
+      str jsHeight = "(<generateNumExprValue(height)>)";
+      str jsStartAngle = "(<generateNumExprValue(startAngle)>)";
+      str jsStopAngle = "(<generateNumExprValue(stopAngle)>)";
       return "  noFill();\n"
            + "  stroke(<colorToJs(color)>);\n"
            + "  strokeWeight(4);\n"
            + "  arc(0, 0, <jsWidth>, <jsHeight>, <jsStartAngle>, <jsStopAngle>);\n";
     }
-    case \square(Expr size, Color color): {
-      str jsSize = "(<generateExprValue(size)>)";
+    case \square(NumExpr size, Color color): {
+      str jsSize = "(<generateNumExprValue(size)>)";
       return "  fill(<colorToJs(color)>);\n"
            + "  noStroke();\n"
            + "  square(0, 0, <jsSize>);\n"; // 0,0 is location of topleft corner, whereas circle/eclipse it's centre. TODO documentation
     }
-    case \rect(Expr width, Expr height, Color color): {
-      str jsWidth = "(<generateExprValue(width)>)";
-      str jsHeight = "(<generateExprValue(height)>)";
+    case \rect(NumExpr width, NumExpr height, Color color): {
+      str jsWidth = "(<generateNumExprValue(width)>)";
+      str jsHeight = "(<generateNumExprValue(height)>)";
       return "  fill(<colorToJs(color)>);\n"
            + "  noStroke();\n"
-           + "  rect(0, 0, <jsWidth>, <jsHeight>)";
+           + "  rect(0, 0, <jsWidth>, <jsHeight>);\n";
     }
-    case \star(Expr size, Color color): {
-      str sizeExpr = "(<generateExprValue(size)>)";
+    case \star(NumExpr size, Color color): {
+      str sizeExpr = "(<generateNumExprValue(size)>)";
       int points = 5;
       return "  fill(<colorToJs(color)>);\n"
            + "  noStroke();\n"
@@ -93,58 +93,53 @@ str generateShape(Shape shape) {
   return "";
 }
 
-str generateExpr(Expr expr) {
-  switch (expr) {
-    case \shapeExpr(Shape shape): return generateShape(shape);    
-  }
-  return "";
-}
-
-str generateExprValue(Expr expr) {
+str generateNumExprValue(NumExpr expr) {
   switch (expr) {
     case \number(real v): return "<v>";
     case \randExpr(real min, real max): return "random(<min>, <max>)";
     case \idExpr(str name): return name;
-    case \mul(Expr l, Expr r): return "(<generateExprValue(l)> * <generateExprValue(r)>)";
-    case \div(Expr l, Expr r): return "(<generateExprValue(l)> / <generateExprValue(r)>)";
-    case \mod(Expr l, Expr r): return "(<generateExprValue(l)> % <generateExprValue(r)>)";
-    case \add(Expr l, Expr r): return "(<generateExprValue(l)> + <generateExprValue(r)>)";
-    case \sub(Expr l, Expr r): return "(<generateExprValue(l)> - <generateExprValue(r)>)";
+    case \mul(NumExpr l, NumExpr r): return "(<generateNumExprValue(l)> * <generateNumExprValue(r)>)";
+    case \div(NumExpr l, NumExpr r): return "(<generateNumExprValue(l)> / <generateNumExprValue(r)>)";
+    case \mod(NumExpr l, NumExpr r): return "(<generateNumExprValue(l)> % <generateNumExprValue(r)>)";
+    case \add(NumExpr l, NumExpr r): return "(<generateNumExprValue(l)> + <generateNumExprValue(r)>)";
+    case \sub(NumExpr l, NumExpr r): return "(<generateNumExprValue(l)> - <generateNumExprValue(r)>)";
   }
   return "0";
 }
 
-str generateCoordExpr(Expr expr)
-  = "(<generateExprValue(expr)>)";
+str generateCoordExpr(NumExpr expr)
+  = "(<generateNumExprValue(expr)>)";
 
 str generateCond(Cond cond) {
   switch (cond) {
-    case \isEqual(Expr l, Expr r):
-      return "(<generateExprValue(l)> === <generateExprValue(r)>)";
-    case \isGreater(Expr l, Expr r):
-      return "(<generateExprValue(l)> \> <generateExprValue(r)>)";
-    case \isLess(Expr l, Expr r):
-      return "(<generateExprValue(l)> \< <generateExprValue(r)>)";
-    case \isGreaterEqual(Expr l, Expr r):
-      return "(<generateExprValue(l)> \>= <generateExprValue(r)>)";
-    case \isLessEqual(Expr l, Expr r):
-      return "(<generateExprValue(l)> \<= <generateExprValue(r)>)";
+    case \isEqual(NumExpr l, NumExpr r):
+      return "(<generateNumExprValue(l)> === <generateNumExprValue(r)>)";
+    case \isGreater(NumExpr l, NumExpr r):
+      return "(<generateNumExprValue(l)> \> <generateNumExprValue(r)>)";
+    case \isLess(NumExpr l, NumExpr r):
+      return "(<generateNumExprValue(l)> \< <generateNumExprValue(r)>)";
+    case \isGreaterEqual(NumExpr l, NumExpr r):
+      return "(<generateNumExprValue(l)> \>= <generateNumExprValue(r)>)";
+    case \isLessEqual(NumExpr l, NumExpr r):
+      return "(<generateNumExprValue(l)> \<= <generateNumExprValue(r)>)";
   } 
   return "false";
 }
 
 str generateStatement(Statement statement) {
   switch (statement) {
-    case \assignment(str name, Expr expr): {
-      return "function <name>() {\n"
-           + generateExpr(expr)
-           + "}\n\n";
+    case \assignment(str name, \shapeExpr(Shape shape)): {
+      return "function <name>() {\n" // TODO(doc): specify block scope
+           + generateShape(shape)
+            + "}\n\n";
     }
-    // TODO Extend \assignment to include variable assignments (let y = 5)
-    case \draw(str name, \mkPoint(Expr x, Expr y), Expr angle): {
+    case \assignment(str name, \numExpr(NumExpr expr)): {
+      return "  let <name> = <generateNumExprValue(expr)>;\n";
+    }
+    case \draw(str name, \mkPoint(NumExpr x, NumExpr y), NumExpr angle): {
       str px = generateCoordExpr(x);
       str py = generateCoordExpr(y);
-      str rotation = generateExprValue(angle);
+      str rotation = generateNumExprValue(angle);
       return "  push();\n"
            + "  translate(<px>, <py>);\n"
            + "  rotate(<rotation>);\n"
@@ -155,45 +150,34 @@ str generateStatement(Statement statement) {
   return "";
 }
 
-str generateDefinitions(list[Statement] statements)
-  = joinStrings([generateDefinitionsFor(s) | s <- statements]);
 
-str generateDefinitionsFor(Statement statement) {
+
+str generateSetupStatements(list[Statement] statements)
+  = joinStrings([generateSetupStatement(s) | s <- statements]);
+
+str generateSetupStatement(Statement statement) {
   switch (statement) {
-    case \assignment(_, _): return generateStatement(statement);
-    case \repeat(_, list[Statement] statements): return generateDefinitions(statements); // TODO Documentation: Do not repeat the JS function declaration (also, they are static, can we randomize radius, width, height etc?)
-    case \forLoop(_, _, _, _, list[Statement] statements): return generateDefinitions(statements);
-    case \ifThen(_, list[Statement] thenBranch):
-      return generateDefinitions(thenBranch);
-    case \ifElse(_, list[Statement] thenBranch, list[Statement] elseBranch):
-      return generateDefinitions(thenBranch) + generateDefinitions(elseBranch);
-  }
-  return "";
-}
-
-str generateDrawCalls(list[Statement] statements)
-  = joinStrings([generateDrawCallsFor(s) | s <- statements]);
-
-str generateDrawCallsFor(Statement statement) {
-  switch (statement) {
-    case \draw(_, _, _): return generateStatement(statement);
+    case \assignment(_, _):
+      return generateStatement(statement);
+    case \draw(_, _, _):
+      return generateStatement(statement);
     case \repeat(int count, list[Statement] statements):
-      return "  for (let i = 0; i \< <count>; i++) {\n"
-           + generateDrawCalls(statements)
+      return "  for (let $crode_repeat_i = 0; $crode_repeat_i \< <count>; $crode_repeat_i++) {\n"
+           + generateSetupStatements(statements)
            + "  }\n";
     case \forLoop(str var, real from, real to, real step, list[Statement] statements):
       return "  for (let <var> = <from>; <var> \< <to>; <var> += <step>) {\n"
-           + generateDrawCalls(statements)
+           + generateSetupStatements(statements)
            + "  }\n";
     case \ifThen(Cond cond, list[Statement] thenBranch):
       return "  if (<generateCond(cond)>) {\n"
-           + generateDrawCalls(thenBranch)
+           + generateSetupStatements(thenBranch)
            + "  }\n";
     case \ifElse(Cond cond, list[Statement] thenBranch, list[Statement] elseBranch):
       return "  if (<generateCond(cond)>) {\n"
-           + generateDrawCalls(thenBranch)
+           + generateSetupStatements(thenBranch)
            + "  } else {\n"
-           + generateDrawCalls(elseBranch)
+           + generateSetupStatements(elseBranch)
            + "  }\n";
   }
   return "";
@@ -205,12 +189,11 @@ public str generateP5(Canvas canvas) {
       str jsWidth = "<width>";
       str jsHeight = "<height>";
       return "// Generated from canvas \"<name>\"\n\n"
-           + generateDefinitions(statements)
            + "function setup() {\n"
            + "  createCanvas(<jsWidth>, <jsHeight>);\n"
            + "  angleMode(DEGREES);\n"
            + "  background(<colorToJs(backgroundColor)>);\n\n"
-           + generateDrawCalls(statements)
+           + generateSetupStatements(statements)
            + "}\n";
     }
   }

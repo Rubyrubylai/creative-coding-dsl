@@ -1,8 +1,12 @@
 canvas "Square" width 800 height 600 {
+  let x = random(0,800)
+  let y = random(0,600)
+  let angle = 45
+
   let test = square {
     size 50
     color black
   }
 
-  draw test at (random(0,800), random(0,600))
+  draw test at (x, y) rotate angle
 }

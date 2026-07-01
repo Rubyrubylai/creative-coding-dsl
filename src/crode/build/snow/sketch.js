@@ -1,5 +1,10 @@
 // Generated from canvas "Snow"
 
+function setup() {
+  createCanvas(800., 600.);
+  angleMode(DEGREES);
+  background("white");
+
 function snowflake() {
   fill("black");
   noStroke();
@@ -34,12 +39,7 @@ function stars() {
   }
 }
 
-function setup() {
-  createCanvas(800., 600.);
-  angleMode(DEGREES);
-  background("white");
-
-  for (let i = 0; i < 300; i++) {
+  for (let $crode_repeat_i = 0; $crode_repeat_i < 300; $crode_repeat_i++) {
   if ((random(0., 1.) < 0.95)) {
   push();
   translate((random(0., 780.)), (random(0., 580.)));

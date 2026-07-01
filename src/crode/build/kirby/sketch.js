@@ -1,5 +1,10 @@
 // Generated from canvas "Kirby"
 
+function setup() {
+  createCanvas(800., 600.);
+  angleMode(DEGREES);
+  background("white");
+
 function body() {
   fill("pink");
   noStroke();
@@ -42,11 +47,6 @@ function smile() {
   strokeWeight(4);
   arc(0, 0, (55.), (35.), (20.), (160.));
 }
-
-function setup() {
-  createCanvas(800., 600.);
-  angleMode(DEGREES);
-  background("white");
 
   push();
   translate((235.), (355.));

@@ -44,8 +44,8 @@ crode::AST::Color loadColor((Color)`pink`) = \pink();
 crode::AST::Color loadColor((Color)`black`) = \black();
 crode::AST::Color loadColor((Color)`orange`) = \orange();
 
-crode::AST::Point loadPoint((Point)`( <Expr x> , <Expr y> )`)
-  = \mkPoint(loadExpr(x), loadExpr(y), src=x@\loc);
+crode::AST::Point loadPoint((Point)`( <NumExpr x> , <NumExpr y> )`)
+  = \mkPoint(loadNumExpr(x), loadNumExpr(y), src=x@\loc);
 
 crode::AST::Shape loadShape((Shape)`<CircleShape circleShape>`)
   = loadCircleShape(circleShape);
@@ -65,71 +65,80 @@ crode::AST::Shape loadShape((Shape)`<RectShape rectShape>`)
 crode::AST::Shape loadShape((Shape)`<StarShape starShape>`)
   = loadStarShape(starShape);
 
-crode::AST::Shape loadCircleShape((CircleShape)`circle { radius <Expr radius> color <Color color> }`)
-  = \circle(loadExpr(radius), loadColor(color), src=radius@\loc);
+crode::AST::Shape loadCircleShape((CircleShape)`circle { radius <NumExpr radius> color <Color color> }`)
+  = \circle(loadNumExpr(radius), loadColor(color), src=radius@\loc);
 
-crode::AST::Shape loadEllipseShape((EllipseShape)`ellipse { width <Expr width> height <Expr height> color <Color color> }`)
-  = \ellipse(loadExpr(width), loadExpr(height), loadColor(color), src=width@\loc);
+crode::AST::Shape loadEllipseShape((EllipseShape)`ellipse { width <NumExpr width> height <NumExpr height> color <Color color> }`)
+  = \ellipse(loadNumExpr(width), loadNumExpr(height), loadColor(color), src=width@\loc);
 
-crode::AST::Shape loadArcShape((ArcShape)`arc { width <Expr width> height <Expr height> start <Expr startAngle> stop <Expr stopAngle> color <Color color> }`)
-  = \arc(loadExpr(width), loadExpr(height), loadExpr(startAngle), loadExpr(stopAngle), loadColor(color), src=width@\loc);
+crode::AST::Shape loadArcShape((ArcShape)`arc { width <NumExpr width> height <NumExpr height> start <NumExpr startAngle> stop <NumExpr stopAngle> color <Color color> }`)
+  = \arc(loadNumExpr(width), loadNumExpr(height), loadNumExpr(startAngle), loadNumExpr(stopAngle), loadColor(color), src=width@\loc);
 
-crode::AST::Shape loadSquareShape((SquareShape)`square { size <Expr size> color <Color color> }`)
-  = \square(loadExpr(size), loadColor(color), src=size@\loc);
+crode::AST::Shape loadSquareShape((SquareShape)`square { size <NumExpr size> color <Color color> }`)
+  = \square(loadNumExpr(size), loadColor(color), src=size@\loc);
 
-crode::AST::Shape loadRectShape((RectShape)`rect { width <Expr width> height <Expr height> color <Color color> }`)
-  = \rect(loadExpr(width), loadExpr(height), loadColor(color), src=width@\loc);
+crode::AST::Shape loadRectShape((RectShape)`rect { width <NumExpr width> height <NumExpr height> color <Color color> }`)
+  = \rect(loadNumExpr(width), loadNumExpr(height), loadColor(color), src=width@\loc);
 
-crode::AST::Shape loadStarShape((StarShape)`star { size <Expr size> color <Color color>}`)
-  = \star(loadExpr(size), loadColor(color), src=size@\loc);
+crode::AST::Shape loadStarShape((StarShape)`star { size <NumExpr size> color <Color color>}`)
+  = \star(loadNumExpr(size), loadColor(color), src=size@\loc);
 
-crode::AST::Expr loadExpr((Expr)`<Shape shapeTree>`)
-  = \shapeExpr(loadShape(shapeTree), src=shapeTree@\loc);
+crode::AST::Shape loadShapeExpr((ShapeExpr)`<Shape shapeTree>`)
+  = loadShape(shapeTree);
 
-crode::AST::Expr loadExpr((Expr)`random(<NumberLiteral min>, <NumberLiteral max>)`)
+crode::AST::Expr loadExpr((Expr)`<ShapeExpr expr>`)
+  = \shapeExpr(loadShapeExpr(expr), src=expr@\loc);
+
+crode::AST::Expr loadExpr((Expr)`<NumExpr expr>`)
+  = \numExpr(loadNumExpr(expr), src=expr@\loc);
+
+crode::AST::NumExpr loadNumExpr((NumExpr)`random(<NumberLiteral min>, <NumberLiteral max>)`)
   = \randExpr(loadNumber(min), loadNumber(max), src=min@\loc);
 
-crode::AST::Expr loadExpr((Expr)`<NumberLiteral val>`)
+crode::AST::NumExpr loadNumExpr((NumExpr)`<NumberLiteral val>`)
   = \number(loadNumber(val), src=val@\loc);
 
-crode::AST::Expr loadExpr((Expr)`<Id id>`)
+crode::AST::NumExpr loadNumExpr((NumExpr)`<Id id>`)
   = \idExpr(loadId(id), src=id@\loc);
 
-  crode::AST::Expr loadExpr((Expr)`<Expr l> * <Expr r>`)
-  = crode::AST::mul(loadExpr(l), loadExpr(r), src=l@\loc);
+crode::AST::NumExpr loadNumExpr((NumExpr)`( <NumExpr expr> )`)
+  = loadNumExpr(expr);
 
-crode::AST::Expr loadExpr((Expr)`<Expr l> / <Expr r>`)
-  = crode::AST::div(loadExpr(l), loadExpr(r), src=l@\loc);
+crode::AST::NumExpr loadNumExpr((NumExpr)`<NumExpr l> * <NumExpr r>`)
+  = crode::AST::mul(loadNumExpr(l), loadNumExpr(r), src=l@\loc);
 
-crode::AST::Expr loadExpr((Expr)`<Expr l> mod <Expr r>`)
-  = \mod(loadExpr(l), loadExpr(r), src=l@\loc);
+crode::AST::NumExpr loadNumExpr((NumExpr)`<NumExpr l> / <NumExpr r>`)
+  = crode::AST::div(loadNumExpr(l), loadNumExpr(r), src=l@\loc);
 
-crode::AST::Expr loadExpr((Expr)`<Expr l> + <Expr r>`)
-  = crode::AST::add(loadExpr(l), loadExpr(r), src=l@\loc);
+crode::AST::NumExpr loadNumExpr((NumExpr)`<NumExpr l> mod <NumExpr r>`)
+  = \mod(loadNumExpr(l), loadNumExpr(r), src=l@\loc);
 
-crode::AST::Expr loadExpr((Expr)`<Expr l> - <Expr r>`)
-  = crode::AST::sub(loadExpr(l), loadExpr(r), src=l@\loc);
+crode::AST::NumExpr loadNumExpr((NumExpr)`<NumExpr l> + <NumExpr r>`)
+  = crode::AST::add(loadNumExpr(l), loadNumExpr(r), src=l@\loc);
 
-crode::AST::Cond loadCond((Cond)`<Expr l> equals <Expr r>`)
-  = crode::AST::isEqual(loadExpr(l), loadExpr(r), src=l@\loc);
+crode::AST::NumExpr loadNumExpr((NumExpr)`<NumExpr l> - <NumExpr r>`)
+  = crode::AST::sub(loadNumExpr(l), loadNumExpr(r), src=l@\loc);
 
-crode::AST::Cond loadCond((Cond)`<Expr l> greaterThan <Expr r>`)
-  = crode::AST::isGreater(loadExpr(l), loadExpr(r), src=l@\loc);
+crode::AST::Cond loadCond((Cond)`<NumExpr l> equals <NumExpr r>`)
+  = crode::AST::isEqual(loadNumExpr(l), loadNumExpr(r), src=l@\loc);
 
-crode::AST::Cond loadCond((Cond)`<Expr l> lessThan <Expr r>`)
-  = crode::AST::isLess(loadExpr(l), loadExpr(r), src=l@\loc);
+crode::AST::Cond loadCond((Cond)`<NumExpr l> greaterThan <NumExpr r>`)
+  = crode::AST::isGreater(loadNumExpr(l), loadNumExpr(r), src=l@\loc);
 
-crode::AST::Cond loadCond((Cond)`<Expr l> atLeast <Expr r>`)
-  = crode::AST::isGreaterEqual(loadExpr(l), loadExpr(r), src=l@\loc);
+crode::AST::Cond loadCond((Cond)`<NumExpr l> lessThan <NumExpr r>`)
+  = crode::AST::isLess(loadNumExpr(l), loadNumExpr(r), src=l@\loc);
 
-crode::AST::Cond loadCond((Cond)`<Expr l> atMost <Expr r>`)
-  = crode::AST::isLessEqual(loadExpr(l), loadExpr(r), src=l@\loc);
+crode::AST::Cond loadCond((Cond)`<NumExpr l> atLeast <NumExpr r>`)
+  = crode::AST::isGreaterEqual(loadNumExpr(l), loadNumExpr(r), src=l@\loc);
+
+crode::AST::Cond loadCond((Cond)`<NumExpr l> atMost <NumExpr r>`)
+  = crode::AST::isLessEqual(loadNumExpr(l), loadNumExpr(r), src=l@\loc);
 
 crode::AST::Statement loadStatement((Statement)`let <Id id> = <Expr expr>`)
   = \assignment(loadId(id), loadExpr(expr), src=id@\loc);
 
-crode::AST::Statement loadStatement((Statement)`draw <Id id> at <Point point> rotate <Expr angle>`)
-  = \draw(loadId(id), loadPoint(point), loadExpr(angle), src=id@\loc);
+crode::AST::Statement loadStatement((Statement)`draw <Id id> at <Point point> rotate <NumExpr angle>`)
+  = \draw(loadId(id), loadPoint(point), loadNumExpr(angle), src=id@\loc);
 
 crode::AST::Statement loadStatement((Statement)`draw <Id id> at <Point point>`)
   = \draw(loadId(id), loadPoint(point), \number(0.0), src=id@\loc); // TODO(doc): add default angle as 0 for simplifying AST
