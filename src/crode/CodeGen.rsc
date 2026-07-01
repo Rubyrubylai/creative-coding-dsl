@@ -141,11 +141,13 @@ str generateStatement(Statement statement) {
            + "}\n\n";
     }
     // TODO Extend \assignment to include variable assignments (let y = 5)
-    case \draw(str name, \mkPoint(Expr x, Expr y)): {
+    case \draw(str name, \mkPoint(Expr x, Expr y), Expr angle): {
       str px = generateCoordExpr(x);
       str py = generateCoordExpr(y);
+      str rotation = generateExprValue(angle);
       return "  push();\n"
            + "  translate(<px>, <py>);\n"
+           + "  rotate(<rotation>);\n"
            + "  <name>();\n"
            + "  pop();\n";
     }
@@ -174,7 +176,7 @@ str generateDrawCalls(list[Statement] statements)
 
 str generateDrawCallsFor(Statement statement) {
   switch (statement) {
-    case \draw(_, _): return generateStatement(statement);
+    case \draw(_, _, _): return generateStatement(statement);
     case \repeat(int count, list[Statement] statements):
       return "  for (let i = 0; i \< <count>; i++) {\n"
            + generateDrawCalls(statements)

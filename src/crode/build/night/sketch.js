@@ -31,11 +31,13 @@ function setup() {
   if ((random(0., 1.) < 0.5)) {
   push();
   translate((random(0., 780.)), (random(0., 580.)));
+  rotate(0.0);
   snowflake();
   pop();
   } else {
   push();
   translate((random(0., 780.)), (random(0., 200.)));
+  rotate(random(0., 90.));
   stars();
   pop();
   }

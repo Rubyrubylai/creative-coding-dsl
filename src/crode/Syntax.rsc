@@ -22,7 +22,7 @@ lexical LineComment
 
 keyword Keywords
   = "let" | "draw" | "at" | "repeat" | "for" | "in" | "to" | "step"
-  | "if" | "else" | "canvas" | "background" | "rand" | "mod"
+  | "if" | "else" | "canvas" | "background" | "rotate" | "rand" | "mod"
   | "circle" | "ellipse" | "arc" | "square" | "rect" | "star"
   | "radius" | "width" | "height" | "size" | "color" | "start" | "stop"
   | "white" | "yellow" | "green" | "blue" | "red" | "purple" | "pink" | "black" | "orange"
@@ -54,6 +54,7 @@ start syntax Canvas
 
 syntax Statement
   = assignment: "let" Id "=" Expr
+  | rotatedDraw: "draw" Id "at" Point "rotate" Expr
   | draw: "draw" Id "at" Point
   | repeat: "repeat" IntLiteral "{" Statement* "}"
   | forLoop: "for" Id "in" NumberLiteral "to" NumberLiteral "step" NumberLiteral "{" Statement* "}"

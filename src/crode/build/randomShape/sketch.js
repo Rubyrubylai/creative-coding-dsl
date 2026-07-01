@@ -25,16 +25,18 @@ function stars() {
 function setup() {
   createCanvas(800., 600.);
   angleMode(DEGREES);
-  background(255);
+  background("white");
 
   if ((random(0., 1.) < 0.95)) {
   push();
   translate((random(0., 780.)), (random(0., 200.)));
+  rotate(0.0);
   stars();
   pop();
   } else {
   push();
   translate((random(0., 780.)), (random(0., 200.)));
+  rotate(0.0);
   bubble();
   pop();
   }

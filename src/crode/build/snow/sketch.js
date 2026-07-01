@@ -37,17 +37,19 @@ function stars() {
 function setup() {
   createCanvas(800., 600.);
   angleMode(DEGREES);
-  background(255);
+  background("white");
 
   for (let i = 0; i < 300; i++) {
   if ((random(0., 1.) < 0.95)) {
   push();
   translate((random(0., 780.)), (random(0., 580.)));
+  rotate(0.0);
   snowflake();
   pop();
   } else {
   push();
   translate((random(0., 780.)), (random(0., 200.)));
+  rotate(0.0);
   stars();
   pop();
   }
@@ -56,11 +58,13 @@ function setup() {
   if (((i % 1.) === 0.5)) {
   push();
   translate(((i * 100.)), (500.));
+  rotate(0.0);
   bubble();
   pop();
   } else {
   push();
   translate(((i * 100.)), (500.));
+  rotate(0.0);
   block();
   pop();
   }

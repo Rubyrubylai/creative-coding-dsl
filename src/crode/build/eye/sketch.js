@@ -9,10 +9,11 @@ function eye() {
 function setup() {
   createCanvas(800., 600.);
   angleMode(DEGREES);
-  background(255);
+  background("white");
 
   push();
   translate((80.), (50.));
+  rotate(0.0);
   eye();
   pop();
 }

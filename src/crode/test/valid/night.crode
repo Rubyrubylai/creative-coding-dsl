@@ -13,7 +13,7 @@ canvas "Night" width 800 height 600 background black {
         if rand(0,1) lessThan 0.5 {
             draw snowflake at (rand(0,780), rand(0,580))
         } else {
-            draw stars at (rand(0, 780), rand(0, 200))
+            draw stars at (rand(0, 780), rand(0, 200)) rotate rand(0,90)
         }
     }
 }

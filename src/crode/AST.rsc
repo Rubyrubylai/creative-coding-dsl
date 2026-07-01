@@ -30,7 +30,7 @@ data Cond(loc src=|unknown:///|)
 
 data Statement(loc src=|unknown:///|)
   = \assignment(str name, Expr expr)
-  | \draw(str name, Point point)
+  | \draw(str name, Point point, Expr angle)
   | \repeat(int count, list[Statement] statements)
   | \forLoop(str var, real from, real to, real step, list[Statement] statements)
   | \ifThen(Cond cond, list[Statement] thenBranch)

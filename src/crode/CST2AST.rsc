@@ -128,8 +128,11 @@ crode::AST::Cond loadCond((Cond)`<Expr l> atMost <Expr r>`)
 crode::AST::Statement loadStatement((Statement)`let <Id id> = <Expr expr>`)
   = \assignment(loadId(id), loadExpr(expr), src=id@\loc);
 
+crode::AST::Statement loadStatement((Statement)`draw <Id id> at <Point point> rotate <Expr angle>`)
+  = \draw(loadId(id), loadPoint(point), loadExpr(angle), src=id@\loc);
+
 crode::AST::Statement loadStatement((Statement)`draw <Id id> at <Point point>`)
-  = \draw(loadId(id), loadPoint(point), src=id@\loc);
+  = \draw(loadId(id), loadPoint(point), \number(0.0), src=id@\loc); // TODO(doc): add default angle as 0 for simplifying AST
 
 crode::AST::Statement loadStatement((Statement)`repeat <IntLiteral count> { <Statement* statements> }`)
   = \repeat(loadInt(count), loadStatements(statements), src=count@\loc);

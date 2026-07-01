@@ -9,10 +9,11 @@ function test() {
 function setup() {
   createCanvas(800., 600.);
   angleMode(DEGREES);
-  background(255);
+  background("white");
 
   push();
   translate((random(0., 800.)), (random(0., 600.)));
+  rotate(0.0);
   test();
   pop();
 }
