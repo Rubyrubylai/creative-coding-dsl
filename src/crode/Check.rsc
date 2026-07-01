@@ -154,13 +154,25 @@ bool checkNumExpr(NumExpr expr, set[str] numberNames) {
     case \mul(NumExpr left, NumExpr right):
       return checkNumExpr(left, numberNames) && checkNumExpr(right, numberNames);
     case \div(NumExpr left, NumExpr right):
-      return checkNumExpr(left, numberNames) && checkNumExpr(right, numberNames);
+      return !isZeroLiteral(right)
+          && checkNumExpr(left, numberNames)
+          && checkNumExpr(right, numberNames);
     case \mod(NumExpr left, NumExpr right):
-      return checkNumExpr(left, numberNames) && checkNumExpr(right, numberNames);
+      return !isZeroLiteral(right)
+          && checkNumExpr(left, numberNames)
+          && checkNumExpr(right, numberNames);
     case \add(NumExpr left, NumExpr right):
       return checkNumExpr(left, numberNames) && checkNumExpr(right, numberNames);
     case \sub(NumExpr left, NumExpr right):
       return checkNumExpr(left, numberNames) && checkNumExpr(right, numberNames);
+  }
+  return false;
+}
+
+bool isZeroLiteral(NumExpr expr) {
+  switch (expr) {
+    case \number(0.0):
+      return true;
   }
   return false;
 }
