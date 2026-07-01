@@ -29,8 +29,11 @@ bool checkStatements(list[Statement] statements, set[str] shapeNames, set[str] n
     set[str] visibleNumberNames = numberNames + localNumberNames;
 
     switch (statement) {
-      case \assignment(str name, \shapeValue(_)): {
+      case \assignment(str name, \shapeValue(Shape shape)): {
         if (name in visibleShapeNames || name in visibleNumberNames) { // cannot assign variable with same name
+          return false;
+        }
+        if (!checkShape(shape, visibleNumberNames)) {
           return false;
         }
         localShapeNames += {name};
@@ -81,6 +84,28 @@ bool checkStatements(list[Statement] statements, set[str] shapeNames, set[str] n
     }
   }
   return true;
+}
+
+// shape parameter can only be numExpr
+bool checkShape(Shape shape, set[str] numberNames) {
+  switch (shape) {
+    case \circle(NumExpr radius, _):
+      return checkNumExpr(radius, numberNames);
+    case \ellipse(NumExpr width, NumExpr height, _):
+      return checkNumExpr(width, numberNames) && checkNumExpr(height, numberNames);
+    case \arc(NumExpr width, NumExpr height, NumExpr startAngle, NumExpr stopAngle, _):
+      return checkNumExpr(width, numberNames)
+          && checkNumExpr(height, numberNames)
+          && checkNumExpr(startAngle, numberNames)
+          && checkNumExpr(stopAngle, numberNames);
+    case \square(NumExpr size, _):
+      return checkNumExpr(size, numberNames);
+    case \rect(NumExpr width, NumExpr height, _):
+      return checkNumExpr(width, numberNames) && checkNumExpr(height, numberNames);
+    case \star(NumExpr size, _):
+      return checkNumExpr(size, numberNames);
+  }
+  return false;
 }
 
 bool checkPoint(Point point, set[str] numberNames) {
