@@ -74,6 +74,7 @@ syntax Shape
   | arcShape: ArcShape
   | squareShape: SquareShape
   | rectShape: RectShape
+  | starShape: StarShape
   ;
 
 syntax CircleShape
@@ -112,6 +113,13 @@ syntax RectShape
   = rect: "rect" "{"
     "width" Expr
     "height" Expr
+    "color" Color
+  "}"
+  ;
+
+syntax StarShape
+  = star: "star" "{"
+    "size" Expr
     "color" Color
   "}"
   ;

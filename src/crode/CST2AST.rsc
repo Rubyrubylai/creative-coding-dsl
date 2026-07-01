@@ -62,6 +62,9 @@ crode::AST::Shape loadShape((Shape)`<SquareShape squareShape>`)
 crode::AST::Shape loadShape((Shape)`<RectShape rectShape>`)
   = loadRectShape(rectShape);
 
+crode::AST::Shape loadShape((Shape)`<StarShape starShape>`)
+  = loadStarShape(starShape);
+
 crode::AST::Shape loadCircleShape((CircleShape)`circle { radius <Expr radius> color <Color color> }`)
   = \circle(loadExpr(radius), loadColor(color), src=radius@\loc);
 
@@ -76,6 +79,9 @@ crode::AST::Shape loadSquareShape((SquareShape)`square { size <Expr size> color 
 
 crode::AST::Shape loadRectShape((RectShape)`rect { width <Expr width> height <Expr height> color <Color color> }`)
   = \rect(loadExpr(width), loadExpr(height), loadColor(color), src=width@\loc);
+
+crode::AST::Shape loadStarShape((StarShape)`star { size <Expr size> color <Color color>}`)
+  = \star(loadExpr(size), loadColor(color), src=size@\loc);
 
 crode::AST::Expr loadExpr((Expr)`<Shape shapeTree>`)
   = \shapeExpr(loadShape(shapeTree), src=shapeTree@\loc);

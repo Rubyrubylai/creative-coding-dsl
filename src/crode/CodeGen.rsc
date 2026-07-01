@@ -74,6 +74,23 @@ str generateShape(Shape shape) {
            + "  noStroke();\n"
            + "  rect(0, 0, <jsWidth>, <jsHeight>)";
     }
+    case \star(Expr size, Color color): {
+      str sizeExpr = "(<generateExprValue(size)> * <scaleUnit>)";
+      int points = 5;
+      return "  fill(<colorToJs(color)>);\n"
+           + "  noStroke();\n"
+           + "  {\n"
+           + "    let outerR = <sizeExpr>;\n"
+           + "    let innerR = outerR * 0.4;\n"
+           + "    beginShape();\n"
+           + "    for (let i = 0; i \< <points> * 2; i++) {\n"
+           + "      let angle = (Math.PI / <points>) * i - Math.PI / 2;\n"
+           + "      let rad = (i % 2 === 0) ? outerR : innerR;\n"
+           + "      vertex(rad * Math.cos(angle), rad * Math.sin(angle));\n"
+           + "    }\n"
+           + "    endShape(CLOSE);\n"
+           + "  }\n";
+    }
   }
   return "";
 }

@@ -38,6 +38,7 @@ data Shape(loc src=|unknown:///|)
   | \arc(Expr width, Expr height, Expr startAngle, Expr stopAngle, Color color)
   | \square(Expr size, Color color)
   | \rect(Expr width, Expr height, Color color)
+  | \star(Expr size, Color color)
   ;
 
 data Color(loc src=|unknown:///|)
