@@ -1,0 +1,8 @@
+canvas "InvalidShapePoint" width 800 height 600 {
+  let snowflake = circle {
+    radius 5
+    color black
+  }
+
+  draw snowflake at (snowflake, 100)
+}

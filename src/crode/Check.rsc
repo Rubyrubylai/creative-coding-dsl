@@ -44,10 +44,13 @@ bool checkStatements(list[Statement] statements, set[str] shapeNames, set[str] n
         }
         localNumberNames += {name};
       }
-      case \draw(str name, _, NumExpr angle): {
+      case \draw(str name, Point point, NumExpr angle): {
         // can only draw shape
+        // point x/y can only be numExpr
         // rotate angle can only be numExpr
-        if (!(name in visibleShapeNames) || !checkNumExpr(angle, visibleNumberNames)) {
+        if (!(name in visibleShapeNames) 
+            || !checkPoint(point, visibleNumberNames)
+            || !checkNumExpr(angle, visibleNumberNames)) {
           return false;
         }
       }
@@ -78,6 +81,14 @@ bool checkStatements(list[Statement] statements, set[str] shapeNames, set[str] n
     }
   }
   return true;
+}
+
+bool checkPoint(Point point, set[str] numberNames) {
+  switch (point) {
+    case \mkPoint(NumExpr x, NumExpr y):
+      return checkNumExpr(x, numberNames) && checkNumExpr(y, numberNames);
+  }
+  return false;
 }
 
 bool checkNumExpr(NumExpr expr, set[str] numberNames) {
