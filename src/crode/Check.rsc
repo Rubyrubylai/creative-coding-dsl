@@ -70,13 +70,15 @@ bool checkStatements(list[Statement] statements, set[str] shapeNames, set[str] n
           return false;
         }
       }
-      case \ifThen(_, list[Statement] thenBranch): {
-        if (!checkStatements(thenBranch, visibleShapeNames, visibleNumberNames)) {
+      case \ifThen(Cond cond, list[Statement] thenBranch): {
+        if (!checkCond(cond, visibleNumberNames)
+            || !checkStatements(thenBranch, visibleShapeNames, visibleNumberNames)) {
           return false;
         }
       }
-      case \ifElse(_, list[Statement] thenBranch, list[Statement] elseBranch): {
-        if (!checkStatements(thenBranch, visibleShapeNames, visibleNumberNames)
+      case \ifElse(Cond cond, list[Statement] thenBranch, list[Statement] elseBranch): {
+        if (!checkCond(cond, visibleNumberNames)
+            || !checkStatements(thenBranch, visibleShapeNames, visibleNumberNames)
             || !checkStatements(elseBranch, visibleShapeNames, visibleNumberNames)) {
           return false;
         }
@@ -112,6 +114,23 @@ bool checkPoint(Point point, set[str] numberNames) {
   switch (point) {
     case \mkPoint(NumExpr x, NumExpr y):
       return checkNumExpr(x, numberNames) && checkNumExpr(y, numberNames);
+  }
+  return false;
+}
+
+// if condition can only compare numExpr
+bool checkCond(Cond cond, set[str] numberNames) {
+  switch (cond) {
+    case \isEqual(NumExpr left, NumExpr right):
+      return checkNumExpr(left, numberNames) && checkNumExpr(right, numberNames);
+    case \isGreater(NumExpr left, NumExpr right):
+      return checkNumExpr(left, numberNames) && checkNumExpr(right, numberNames);
+    case \isLess(NumExpr left, NumExpr right):
+      return checkNumExpr(left, numberNames) && checkNumExpr(right, numberNames);
+    case \isGreaterEqual(NumExpr left, NumExpr right):
+      return checkNumExpr(left, numberNames) && checkNumExpr(right, numberNames);
+    case \isLessEqual(NumExpr left, NumExpr right):
+      return checkNumExpr(left, numberNames) && checkNumExpr(right, numberNames);
   }
   return false;
 }
