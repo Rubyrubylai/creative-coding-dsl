@@ -1,19 +1,19 @@
 canvas "Night" width 800 height 600 background black {
     let snowflake = circle {
-        radius rand(2, 6)
+        radius random(2, 6)
         color white
     }
 
     let stars = star {
-        size rand(0, 30)
+        size random(0, 30)
         color yellow
     }
 
     repeat 300 {
-        if rand(0,1) lessThan 0.5 {
-            draw snowflake at (rand(0,780), rand(0,580))
+        if random(0,1) lessThan 0.5 {
+            draw snowflake at (random(0,780), random(0,580))
         } else {
-            draw stars at (rand(0, 780), rand(0, 200)) rotate rand(0,90)
+            draw stars at (random(0, 780), random(0, 200)) rotate random(0,90)
         }
     }
 }

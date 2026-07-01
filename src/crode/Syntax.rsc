@@ -22,7 +22,7 @@ lexical LineComment
 
 keyword Keywords
   = "let" | "draw" | "at" | "repeat" | "for" | "in" | "to" | "step"
-  | "if" | "else" | "canvas" | "background" | "rotate" | "rand" | "mod"
+  | "if" | "else" | "canvas" | "background" | "rotate" | "random" | "mod"
   | "circle" | "ellipse" | "arc" | "square" | "rect" | "star"
   | "radius" | "width" | "height" | "size" | "color" | "start" | "stop"
   | "white" | "yellow" | "green" | "blue" | "red" | "purple" | "pink" | "black" | "orange"
@@ -140,7 +140,7 @@ syntax StarShape
   ;
 
 syntax RandExpr
-  = rand: "rand" "(" NumberLiteral "," NumberLiteral ")";
+  = random: "random" "(" NumberLiteral "," NumberLiteral ")";
 
 syntax Point
   = point: "(" Expr "," Expr ")";

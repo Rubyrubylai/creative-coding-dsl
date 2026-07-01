@@ -4,5 +4,5 @@ canvas "Square" width 800 height 600 {
     color black
   }
 
-  draw test at (rand(0,800), rand(0,600))
+  draw test at (random(0,800), random(0,600))
 }

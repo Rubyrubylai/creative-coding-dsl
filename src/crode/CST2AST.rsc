@@ -86,7 +86,7 @@ crode::AST::Shape loadStarShape((StarShape)`star { size <Expr size> color <Color
 crode::AST::Expr loadExpr((Expr)`<Shape shapeTree>`)
   = \shapeExpr(loadShape(shapeTree), src=shapeTree@\loc);
 
-crode::AST::Expr loadExpr((Expr)`rand(<NumberLiteral min>, <NumberLiteral max>)`)
+crode::AST::Expr loadExpr((Expr)`random(<NumberLiteral min>, <NumberLiteral max>)`)
   = \randExpr(loadNumber(min), loadNumber(max), src=min@\loc);
 
 crode::AST::Expr loadExpr((Expr)`<NumberLiteral val>`)
