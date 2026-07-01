@@ -113,6 +113,18 @@ crode::AST::Expr loadExpr((Expr)`<Expr l> - <Expr r>`)
 crode::AST::Cond loadCond((Cond)`<Expr l> equals <Expr r>`)
   = crode::AST::isEqual(loadExpr(l), loadExpr(r), src=l@\loc);
 
+crode::AST::Cond loadCond((Cond)`<Expr l> greaterThan <Expr r>`)
+  = crode::AST::isGreater(loadExpr(l), loadExpr(r), src=l@\loc);
+
+crode::AST::Cond loadCond((Cond)`<Expr l> lessThan <Expr r>`)
+  = crode::AST::isLess(loadExpr(l), loadExpr(r), src=l@\loc);
+
+crode::AST::Cond loadCond((Cond)`<Expr l> atLeast <Expr r>`)
+  = crode::AST::isGreaterEqual(loadExpr(l), loadExpr(r), src=l@\loc);
+
+crode::AST::Cond loadCond((Cond)`<Expr l> atMost <Expr r>`)
+  = crode::AST::isLessEqual(loadExpr(l), loadExpr(r), src=l@\loc);
+
 crode::AST::Statement loadStatement((Statement)`let <Id id> = <Expr expr>`)
   = \assignment(loadId(id), loadExpr(expr), src=id@\loc);
 

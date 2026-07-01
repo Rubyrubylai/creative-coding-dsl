@@ -123,6 +123,14 @@ str generateCond(Cond cond) {
   switch (cond) {
     case \isEqual(Expr l, Expr r):
       return "(<generateExprValue(l)> === <generateExprValue(r)>)";
+    case \isGreater(Expr l, Expr r):
+      return "(<generateExprValue(l)> \> <generateExprValue(r)>)";
+    case \isLess(Expr l, Expr r):
+      return "(<generateExprValue(l)> \< <generateExprValue(r)>)";
+    case \isGreaterEqual(Expr l, Expr r):
+      return "(<generateExprValue(l)> \>= <generateExprValue(r)>)";
+    case \isLessEqual(Expr l, Expr r):
+      return "(<generateExprValue(l)> \<= <generateExprValue(r)>)";
   } 
   return "false";
 }

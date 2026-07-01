@@ -21,7 +21,12 @@ data Expr(loc src=|unknown:///|)
   ;
 
 data Cond(loc src=|unknown:///|)
-  = \isEqual(Expr left, Expr right);
+  = \isEqual(Expr left, Expr right)
+  | \isGreater(Expr left, Expr right)
+  | \isLess(Expr left, Expr right)
+  | \isGreaterEqual(Expr left, Expr right)
+  | \isLessEqual(Expr left, Expr right)
+  ;
 
 data Statement(loc src=|unknown:///|)
   = \assignment(str name, Expr expr)

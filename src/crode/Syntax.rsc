@@ -20,8 +20,17 @@ lexical LineComment
   = @category="Comment" "//"  ![\n]* $;
 // ===========================================================================
 
+keyword Keywords
+  = "let" | "draw" | "at" | "repeat" | "for" | "in" | "to" | "step"
+  | "if" | "else" | "canvas" | "rand" | "mod"
+  | "circle" | "ellipse" | "arc" | "square" | "rect" | "star"
+  | "radius" | "width" | "height" | "size" | "color" | "start" | "stop"
+  | "white" | "yellow" | "green" | "blue" | "red" | "purple" | "pink" | "black" | "orange"
+  | "equals" | "lessThan" | "greaterThan" | "atLeast" | "atMost"
+  ;
+
 lexical StringLiteral = "\"" ![\"]* "\"";
-lexical Id = [a-zA-Z_][a-zA-Z0-9_]* !>> [a-zA-Z0-9_];
+lexical Id = [a-zA-Z_][a-zA-Z0-9_]* !>> [a-zA-Z0-9_] \ Keywords;
 lexical NumberLiteral
   = "-"? [0-9]+ "." [0-9]+
   | "-"? [0-9]+
@@ -66,6 +75,10 @@ syntax Expr
 
 syntax Cond // TODO Decision: "is", "equals", or "==" ? 
   = isEqual: Expr "equals" Expr
+  | isGreater: Expr "greaterThan" Expr
+  | isLess: Expr "lessThan" Expr
+  | isGreaterEqual: Expr "atLeast" Expr
+  | isLessEqual: Expr "atMost" Expr
   ;
 
 syntax Shape
