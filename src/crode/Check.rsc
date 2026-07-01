@@ -20,7 +20,8 @@ bool checkCanvasConfiguration(Canvas canvas){
 }
 
 bool checkStatements(list[Statement] statements, set[str] shapeNames, set[str] numberNames) {
-  set[str] localShapeNames = {}; // TODO(doc): assignment only support in block scope
+  // assignment only support in block scope
+  set[str] localShapeNames = {};
   set[str] localNumberNames = {};
 
   for (statement <- statements) {
@@ -29,13 +30,13 @@ bool checkStatements(list[Statement] statements, set[str] shapeNames, set[str] n
 
     switch (statement) {
       case \assignment(str name, \shapeValue(_)): {
-        if (name in visibleShapeNames || name in visibleNumberNames) { // TODO(doc): cannot assign variable with same name
+        if (name in visibleShapeNames || name in visibleNumberNames) { // cannot assign variable with same name
           return false;
         }
         localShapeNames += {name};
       }
       case \assignment(str name, \numValue(NumExpr expr)): {
-        if (name in visibleShapeNames || name in visibleNumberNames) {
+        if (name in visibleShapeNames || name in visibleNumberNames) { // cannot assign variable with same name
           return false;
         }
         if (!checkNumExpr(expr, visibleNumberNames)) {
@@ -44,6 +45,8 @@ bool checkStatements(list[Statement] statements, set[str] shapeNames, set[str] n
         localNumberNames += {name};
       }
       case \draw(str name, _, NumExpr angle): {
+        // can only draw shape
+        // rotate angle can only be numExpr
         if (!(name in visibleShapeNames) || !checkNumExpr(angle, visibleNumberNames)) {
           return false;
         }
@@ -85,6 +88,7 @@ bool checkNumExpr(NumExpr expr, set[str] numberNames) {
       return true;
     case \idExpr(str name):
       return name in numberNames;
+    // arithmetic can only be numExpr
     case \mul(NumExpr left, NumExpr right):
       return checkNumExpr(left, numberNames) && checkNumExpr(right, numberNames);
     case \div(NumExpr left, NumExpr right):
