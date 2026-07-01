@@ -13,49 +13,88 @@ import crode::AST;
 bool checkCanvasConfiguration(Canvas canvas){
   switch (canvas) {
     case \canvas(_, _, _, _, list[Statement] statements): {
-      return checkStatements(statements, {});
+      return checkStatements(statements, {}, {});
     }
   }
   return false;
 }
 
-bool checkStatements(list[Statement] statements, set[str] shapeNames) {
-  set[str] localShapeNames = {};
+bool checkStatements(list[Statement] statements, set[str] shapeNames, set[str] numberNames) {
+  set[str] localShapeNames = {}; // TODO(doc): assignment only support in block scope
+  set[str] localNumberNames = {};
 
   for (statement <- statements) {
     set[str] visibleShapeNames = shapeNames + localShapeNames;
+    set[str] visibleNumberNames = numberNames + localNumberNames;
 
     switch (statement) {
       case \assignment(str name, \shapeValue(_)): {
+        if (name in visibleShapeNames || name in visibleNumberNames) { // TODO(doc): cannot assign variable with same name
+          return false;
+        }
         localShapeNames += {name};
       }
-      case \draw(str name, _, _): {
-        if (!(name in visibleShapeNames)) {
+      case \assignment(str name, \numValue(NumExpr expr)): {
+        if (name in visibleShapeNames || name in visibleNumberNames) {
+          return false;
+        }
+        if (!checkNumExpr(expr, visibleNumberNames)) {
+          return false;
+        }
+        localNumberNames += {name};
+      }
+      case \draw(str name, _, NumExpr angle): {
+        if (!(name in visibleShapeNames) || !checkNumExpr(angle, visibleNumberNames)) {
           return false;
         }
       }
       case \repeat(_, list[Statement] body): {
-        if (!checkStatements(body, visibleShapeNames)) {
+        if (!checkStatements(body, visibleShapeNames, visibleNumberNames)) {
           return false;
         }
       }
-      case \forLoop(_, _, _, _, list[Statement] body): {
-        if (!checkStatements(body, visibleShapeNames)) {
+      case \forLoop(str var, _, _, _, list[Statement] body): {
+        if (var in visibleShapeNames || var in visibleNumberNames) {
+          return false;
+        }
+        if (!checkStatements(body, visibleShapeNames, visibleNumberNames + {var})) {
           return false;
         }
       }
       case \ifThen(_, list[Statement] thenBranch): {
-        if (!checkStatements(thenBranch, visibleShapeNames)) {
+        if (!checkStatements(thenBranch, visibleShapeNames, visibleNumberNames)) {
           return false;
         }
       }
       case \ifElse(_, list[Statement] thenBranch, list[Statement] elseBranch): {
-        if (!checkStatements(thenBranch, visibleShapeNames)
-            || !checkStatements(elseBranch, visibleShapeNames)) {
+        if (!checkStatements(thenBranch, visibleShapeNames, visibleNumberNames)
+            || !checkStatements(elseBranch, visibleShapeNames, visibleNumberNames)) {
           return false;
         }
       }
     }
   }
   return true;
+}
+
+bool checkNumExpr(NumExpr expr, set[str] numberNames) {
+  switch (expr) {
+    case \number(_):
+      return true;
+    case \randExpr(_, _):
+      return true;
+    case \idExpr(str name):
+      return name in numberNames;
+    case \mul(NumExpr left, NumExpr right):
+      return checkNumExpr(left, numberNames) && checkNumExpr(right, numberNames);
+    case \div(NumExpr left, NumExpr right):
+      return checkNumExpr(left, numberNames) && checkNumExpr(right, numberNames);
+    case \mod(NumExpr left, NumExpr right):
+      return checkNumExpr(left, numberNames) && checkNumExpr(right, numberNames);
+    case \add(NumExpr left, NumExpr right):
+      return checkNumExpr(left, numberNames) && checkNumExpr(right, numberNames);
+    case \sub(NumExpr left, NumExpr right):
+      return checkNumExpr(left, numberNames) && checkNumExpr(right, numberNames);
+  }
+  return false;
 }
