@@ -152,4 +152,7 @@ public crode::AST::Canvas cst2ast((start[Canvas])`<Canvas canvasTree>`)
   = loadCanvas(canvasTree);
 
 crode::AST::Canvas loadCanvas((Canvas)`canvas <StringLiteral id> width <NumberLiteral width> height <NumberLiteral height> { <Statement* statements> }`)
-  = \canvas(loadString(id), loadNumber(width), loadNumber(height), loadStatements(statements), src=id@\loc);
+  = \canvas(loadString(id), loadNumber(width), loadNumber(height), \white(), loadStatements(statements), src=id@\loc);
+
+crode::AST::Canvas loadCanvas((Canvas)`canvas <StringLiteral id> width <NumberLiteral width> height <NumberLiteral height> background <Color background> { <Statement* statements> }`)
+  = \canvas(loadString(id), loadNumber(width), loadNumber(height), loadColor(background), loadStatements(statements), src=id@\loc);

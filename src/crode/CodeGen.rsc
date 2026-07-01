@@ -199,7 +199,7 @@ str generateDrawCallsFor(Statement statement) {
 
 public str generateP5(Canvas canvas) {
   switch (canvas) {
-    case \canvas(str name, real width, real height, list[Statement] statements): {
+    case \canvas(str name, real width, real height, Color backgroundColor, list[Statement] statements): {
       str jsWidth = "<width>";
       str jsHeight = "<height>";
       return "// Generated from canvas \"<name>\"\n\n"
@@ -207,7 +207,7 @@ public str generateP5(Canvas canvas) {
            + "function setup() {\n"
            + "  createCanvas(<jsWidth>, <jsHeight>);\n"
            + "  angleMode(DEGREES);\n"
-           + "  background(255);\n\n"
+           + "  background(<colorToJs(backgroundColor)>);\n\n"
            + generateDrawCalls(statements)
            + "}\n";
     }
@@ -235,7 +235,7 @@ str baseName(loc sourceFile)
 
 public str generateHtml(Canvas canvas, str jsFileName) {
   switch (canvas) {
-    case \canvas(str name, _, _, _): {
+    case \canvas(str name, _, _, _, _): {
       return "\<!doctype html\>\n"
            + "\<html lang=\"en\"\>\n"
            + "  \<head\>\n"

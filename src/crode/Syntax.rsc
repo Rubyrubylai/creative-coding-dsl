@@ -22,7 +22,7 @@ lexical LineComment
 
 keyword Keywords
   = "let" | "draw" | "at" | "repeat" | "for" | "in" | "to" | "step"
-  | "if" | "else" | "canvas" | "rand" | "mod"
+  | "if" | "else" | "canvas" | "background" | "rand" | "mod"
   | "circle" | "ellipse" | "arc" | "square" | "rect" | "star"
   | "radius" | "width" | "height" | "size" | "color" | "start" | "stop"
   | "white" | "yellow" | "green" | "blue" | "red" | "purple" | "pink" | "black" | "orange"
@@ -49,7 +49,8 @@ lexical Color
 ;
 
 start syntax Canvas
-  = canvas: "canvas" StringLiteral "width" NumberLiteral "height" NumberLiteral "{" Statement* "}";
+  = canvas: "canvas" StringLiteral "width" NumberLiteral "height" NumberLiteral "{" Statement* "}"
+  | backgroundCanvas: "canvas" StringLiteral "width" NumberLiteral "height" NumberLiteral "background" Color "{" Statement* "}";
 
 syntax Statement
   = assignment: "let" Id "=" Expr
