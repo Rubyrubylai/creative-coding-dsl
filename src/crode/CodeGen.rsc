@@ -3,6 +3,8 @@ module crode::CodeGen
 import IO;
 import String;
 
+import util::Math;
+
 import crode::AST;
 import crode::Parser;
 import crode::CST2AST;
@@ -78,9 +80,22 @@ str generateShape(Shape shape) {
 
 str generateExpr(Expr expr) {
   switch (expr) {
-    case \shapeExpr(Shape shape): return generateShape(shape);
+    case \shapeExpr(Shape shape): return generateShape(shape);    
   }
   return "";
+}
+
+str generateCoordExpr(Expr expr) {
+  switch (expr) {
+    case \number(real v):
+      return "<v * scaleUnit>";
+    case \randExpr(real min, real max): { // TODO Documentation: Randomization at compile time
+      real jsMin = min * scaleUnit;
+      real jsMax = max * scaleUnit;
+      return "random(<jsMin>, <jsMax>)";
+    }
+  }
+  return "0";
 }
 
 str generateStatement(Statement statement) {
@@ -90,9 +105,10 @@ str generateStatement(Statement statement) {
            + generateExpr(expr)
            + "}\n\n";
     }
-    case \draw(str name, \point(real x, real y)): {
-      real px = x * scaleUnit;
-      real py = y * scaleUnit;
+    // TODO Extend \assignment to include variable assignments (let y = 5)
+    case \draw(str name, \mkPoint(Expr x, Expr y)): {
+      str px = generateCoordExpr(x);
+      str py = generateCoordExpr(y);
       return "  push();\n"
            + "  translate(<px>, <py>);\n"
            + "  <name>();\n"
