@@ -11,19 +11,39 @@ data Canvas(loc src=|unknown:///|)
 data Expr(loc src=|unknown:///|)
   = \shapeExpr(Shape shape)
   | \randExpr(real min, real max)
-  | \number(real val);
+  | \number(real val)
+  | \idExpr(str name)
+  | \mul(Expr left, Expr right)
+  | \div(Expr left, Expr right)
+  | \mod(Expr left, Expr right)
+  | \add(Expr left, Expr right)
+  | \sub(Expr left, Expr right)
+  ;
+
+data Cond(loc src=|unknown:///|)
+  = \isEqual(Expr left, Expr right)
+  | \isGreater(Expr left, Expr right)
+  | \isLess(Expr left, Expr right)
+  | \isGreaterEqual(Expr left, Expr right)
+  | \isLessEqual(Expr left, Expr right)
+  ;
 
 data Statement(loc src=|unknown:///|)
   = \assignment(str name, Expr expr)
   | \draw(str name, Point point)
+  | \repeat(int count, list[Statement] statements)
+  | \forLoop(str var, real from, real to, real step, list[Statement] statements)
+  | \ifThen(Cond cond, list[Statement] thenBranch)
+  | \ifElse(Cond cond, list[Statement] thenBranch, list[Statement] elseBranch)
   ;
 
 data Shape(loc src=|unknown:///|)
-  = \circle(real radius, Color color)
-  | \ellipse(real width, real height, Color color)
-  | \arc(real width, real height, real startAngle, real stopAngle, Color color)
-  | \square(real size, Color color)
-  | \rect(real width, real height, Color color)
+  = \circle(Expr radius, Color color)
+  | \ellipse(Expr width, Expr height, Color color)
+  | \arc(Expr width, Expr height, Expr startAngle, Expr stopAngle, Color color)
+  | \square(Expr size, Color color)
+  | \rect(Expr width, Expr height, Color color)
+  | \star(Expr size, Color color)
   ;
 
 data Color(loc src=|unknown:///|)

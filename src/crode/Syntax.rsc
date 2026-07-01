@@ -20,12 +20,22 @@ lexical LineComment
   = @category="Comment" "//"  ![\n]* $;
 // ===========================================================================
 
+keyword Keywords
+  = "let" | "draw" | "at" | "repeat" | "for" | "in" | "to" | "step"
+  | "if" | "else" | "canvas" | "rand" | "mod"
+  | "circle" | "ellipse" | "arc" | "square" | "rect" | "star"
+  | "radius" | "width" | "height" | "size" | "color" | "start" | "stop"
+  | "white" | "yellow" | "green" | "blue" | "red" | "purple" | "pink" | "black" | "orange"
+  | "equals" | "lessThan" | "greaterThan" | "atLeast" | "atMost"
+  ;
+
 lexical StringLiteral = "\"" ![\"]* "\"";
-lexical Id = [a-zA-Z_][a-zA-Z0-9_]* !>> [a-zA-Z0-9_];
+lexical Id = [a-zA-Z_][a-zA-Z0-9_]* !>> [a-zA-Z0-9_] \ Keywords;
 lexical NumberLiteral
   = "-"? [0-9]+ "." [0-9]+
   | "-"? [0-9]+
   ;
+lexical IntLiteral = [0-9]+ !>> [0-9];
 lexical Color
 = "white"
 | "yellow"
@@ -44,12 +54,31 @@ start syntax Canvas
 syntax Statement
   = assignment: "let" Id "=" Expr
   | draw: "draw" Id "at" Point
+  | repeat: "repeat" IntLiteral "{" Statement* "}"
+  | forLoop: "for" Id "in" NumberLiteral "to" NumberLiteral "step" NumberLiteral "{" Statement* "}"
+  | ifThen: "if" Cond "{" Statement* "}"
+  | ifElse: "if" Cond "{" Statement* "}" "else" "{" Statement* "}"
   ;
 
 syntax Expr
   = shape: Shape
   | randExpr: RandExpr
   | number: NumberLiteral
+  | idExpr: Id
+  | bracket "(" Expr ")"
+  > left mul: Expr "*" Expr
+  > left div: Expr "/" Expr
+  > left modOp: Expr "mod" Expr
+  > left add: Expr "+" Expr
+  > left sub: Expr "-" Expr
+  ;
+
+syntax Cond // TODO Decision: "is", "equals", or "==" ? 
+  = isEqual: Expr "equals" Expr
+  | isGreater: Expr "greaterThan" Expr
+  | isLess: Expr "lessThan" Expr
+  | isGreaterEqual: Expr "atLeast" Expr
+  | isLessEqual: Expr "atMost" Expr
   ;
 
 syntax Shape
@@ -58,44 +87,52 @@ syntax Shape
   | arcShape: ArcShape
   | squareShape: SquareShape
   | rectShape: RectShape
+  | starShape: StarShape
   ;
 
 syntax CircleShape
   = circle: "circle" "{"
-    "radius" NumberLiteral
+    "radius" Expr
     "color" Color
   "}"
   ;
 
 syntax EllipseShape
   = ellipse: "ellipse" "{"
-    "width" NumberLiteral
-    "height" NumberLiteral
+    "width" Expr
+    "height" Expr
     "color" Color
   "}"
   ;
 
 syntax ArcShape
   = arc: "arc" "{"
-    "width" NumberLiteral
-    "height" NumberLiteral
-    "start" NumberLiteral
-    "stop" NumberLiteral
+    "width" Expr
+    "height" Expr
+    "start" Expr
+    "stop" Expr
     "color" Color
   "}"
   ;
 
 syntax SquareShape
   = square: "square" "{"
-    "size" NumberLiteral
+    "size" Expr
     "color" Color
   "}"
   ;
 
 syntax RectShape
   = rect: "rect" "{"
-    "width" NumberLiteral
-    "height" NumberLiteral
+    "width" Expr
+    "height" Expr
+    "color" Color
+  "}"
+  ;
+
+syntax StarShape
+  = star: "star" "{"
+    "size" Expr
     "color" Color
   "}"
   ;

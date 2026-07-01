@@ -1,0 +1,37 @@
+canvas "Snow" {
+    let snowflake = circle {
+        radius rand(0.02, 0.06)
+        color black
+    }
+
+    let bubble = circle {
+        radius rand(0.2, 0.4) / 2
+        color blue
+    }
+
+    let block = square {
+        size rand(0.2, 0.4)
+        color red
+    }
+
+    let stars = star {
+        size rand(0, 0.3)
+        color yellow
+    }
+
+    repeat 300 {
+        if rand(0,1) lessThan 0.95 {
+            draw snowflake at (rand(0,7.8), rand(0,5.8))
+        } else {
+            draw stars at (rand(0, 7.8), rand(0,2))
+        }
+    }
+
+    for i in 0 to 8 step 0.5 {
+        if i mod 1 equals 0.5 {
+            draw bubble at (i, 5)
+        } else {
+            draw block at (i, 5)
+        }
+    }
+}
