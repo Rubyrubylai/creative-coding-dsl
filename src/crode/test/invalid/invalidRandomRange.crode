@@ -1,0 +1,8 @@
+canvas "InvalidRandomRange" width 800 height 600 {
+  let dot = circle {
+    radius random(10, 2)
+    color black
+  }
+
+  draw dot at (100, 100)
+}

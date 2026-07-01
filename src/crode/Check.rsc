@@ -146,8 +146,8 @@ bool checkNumExpr(NumExpr expr, set[str] numberNames) {
   switch (expr) {
     case \number(_):
       return true;
-    case \randExpr(_, _):
-      return true;
+    case \randExpr(real min, real max):
+      return min < max;
     case \idExpr(str name):
       return name in numberNames;
     // arithmetic can only be numExpr
