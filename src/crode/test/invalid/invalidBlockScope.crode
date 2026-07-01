@@ -1,0 +1,10 @@
+canvas "invalidBlockScope" width 500 height 500 {
+  if 1 equals 1 {
+    let dot = circle {
+      radius 20
+      color red
+    }
+  }
+
+  draw dot at (250, 250)
+}

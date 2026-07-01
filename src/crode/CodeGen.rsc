@@ -6,6 +6,7 @@ import String;
 import crode::AST;
 import crode::Parser;
 import crode::CST2AST;
+import crode::Check;
 
 /*
  * Code generation for crode.
@@ -257,5 +258,10 @@ void generateP5Files(Canvas canvas, str outputName) {
 public void generateP5FromFile(loc sourceFile) {
   loc buildRoot = |project://creative-coding-dsl/src/crode/build|;
   ensureDirectory(buildRoot);
-  generateP5Files(cst2ast(parseCrode(sourceFile)), baseName(sourceFile));
+  Canvas ast = cst2ast(parseCrode(sourceFile));
+  if (checkCanvasConfiguration(ast)) {
+    generateP5Files(ast, baseName(sourceFile));
+  } else {
+    println("Invalid crode program: <sourceFile.path>");
+  }
 }
