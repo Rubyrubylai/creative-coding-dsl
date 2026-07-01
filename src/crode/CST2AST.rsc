@@ -151,5 +151,5 @@ list[crode::AST::Statement] loadStatements(Statement* statements)
 public crode::AST::Canvas cst2ast((start[Canvas])`<Canvas canvasTree>`)
   = loadCanvas(canvasTree);
 
-crode::AST::Canvas loadCanvas((Canvas)`canvas <StringLiteral id> { <Statement* statements> }`)
-  = \canvas(loadString(id), loadStatements(statements), src=id@\loc);
+crode::AST::Canvas loadCanvas((Canvas)`canvas <StringLiteral id> width <NumberLiteral width> height <NumberLiteral height> { <Statement* statements> }`)
+  = \canvas(loadString(id), loadNumber(width), loadNumber(height), loadStatements(statements), src=id@\loc);

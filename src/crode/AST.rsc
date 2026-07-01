@@ -6,7 +6,7 @@ module crode::AST
  */
 
 data Canvas(loc src=|unknown:///|)
-  = \canvas(str name, list[Statement] statements);
+  = \canvas(str name, real width, real height, list[Statement] statements);
 
 data Expr(loc src=|unknown:///|)
   = \shapeExpr(Shape shape)

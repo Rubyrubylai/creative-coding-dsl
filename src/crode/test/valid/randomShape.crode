@@ -1,0 +1,17 @@
+canvas "RandomShape" width 800 height 600 {
+    let bubble = circle {
+        radius rand(20, 40) / 2
+        color blue
+    }
+
+    let stars = star {
+        size rand(0, 30)
+        color yellow
+    }
+
+    if rand(0,1) lessThan 0.95 {
+        draw stars at (rand(0, 780), rand(0, 200))
+    } else {
+        draw bubble at (rand(0, 780), rand(0, 200))
+    }
+}

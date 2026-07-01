@@ -1,18 +1,18 @@
-// Generated from canvas "Kirby"
+// Generated from canvas "Square"
 
 function test() {
   fill("black");
   noStroke();
-  square(0, 0, 50.00);
+  square(0, 0, (50.));
 }
 
 function setup() {
-  createCanvas(800, 600);
+  createCanvas(800., 600.);
   angleMode(DEGREES);
   background(255);
 
   push();
-  translate(random(0.0, 800.0), random(0.0, 600.0));
+  translate((random(0., 800.)), (random(0., 600.)));
   test();
   pop();
 }

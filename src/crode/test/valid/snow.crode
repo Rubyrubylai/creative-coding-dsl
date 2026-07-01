@@ -1,37 +1,37 @@
-canvas "Snow" {
+canvas "Snow" width 800 height 600 {
     let snowflake = circle {
-        radius rand(0.02, 0.06)
+        radius rand(2, 6)
         color black
     }
 
     let bubble = circle {
-        radius rand(0.2, 0.4) / 2
+        radius rand(20, 40) / 2
         color blue
     }
 
     let block = square {
-        size rand(0.2, 0.4)
+        size rand(20, 40)
         color red
     }
 
     let stars = star {
-        size rand(0, 0.3)
+        size rand(0, 30)
         color yellow
     }
 
     repeat 300 {
         if rand(0,1) lessThan 0.95 {
-            draw snowflake at (rand(0,7.8), rand(0,5.8))
+            draw snowflake at (rand(0,780), rand(0,580))
         } else {
-            draw stars at (rand(0, 7.8), rand(0,2))
+            draw stars at (rand(0, 780), rand(0, 200))
         }
     }
 
     for i in 0 to 8 step 0.5 {
         if i mod 1 equals 0.5 {
-            draw bubble at (i, 5)
+            draw bubble at (i * 100, 500)
         } else {
-            draw block at (i, 5)
+            draw block at (i * 100, 500)
         }
     }
 }

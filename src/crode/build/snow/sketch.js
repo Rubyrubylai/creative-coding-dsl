@@ -3,26 +3,26 @@
 function snowflake() {
   fill("black");
   noStroke();
-  circle(0, 0, (random(0.02, 0.06) * 2.0 * 100.0));
+  circle(0, 0, (random(2., 6.) * 2.0));
 }
 
 function bubble() {
   fill("blue");
   noStroke();
-  circle(0, 0, ((random(0.2, 0.4) / 2.) * 2.0 * 100.0));
+  circle(0, 0, ((random(20., 40.) / 2.) * 2.0));
 }
 
 function block() {
   fill("red");
   noStroke();
-  square(0, 0, (random(0.2, 0.4) * 100.0));
+  square(0, 0, (random(20., 40.)));
 }
 
 function stars() {
   fill("yellow");
   noStroke();
   {
-    let outerR = (random(0., 0.3) * 100.0);
+    let outerR = (random(0., 30.));
     let innerR = outerR * 0.4;
     beginShape();
     for (let i = 0; i < 5 * 2; i++) {
@@ -35,19 +35,19 @@ function stars() {
 }
 
 function setup() {
-  createCanvas(800, 600);
+  createCanvas(800., 600.);
   angleMode(DEGREES);
   background(255);
 
   for (let i = 0; i < 300; i++) {
   if ((random(0., 1.) < 0.95)) {
   push();
-  translate((random(0., 7.8) * 100.0), (random(0., 5.8) * 100.0));
+  translate((random(0., 780.)), (random(0., 580.)));
   snowflake();
   pop();
   } else {
   push();
-  translate((random(0., 7.8) * 100.0), (random(0., 2.) * 100.0));
+  translate((random(0., 780.)), (random(0., 200.)));
   stars();
   pop();
   }
@@ -55,12 +55,12 @@ function setup() {
   for (let i = 0.; i < 8.; i += 0.5) {
   if (((i % 1.) === 0.5)) {
   push();
-  translate((i * 100.0), (5. * 100.0));
+  translate(((i * 100.)), (500.));
   bubble();
   pop();
   } else {
   push();
-  translate((i * 100.0), (5. * 100.0));
+  translate(((i * 100.)), (500.));
   block();
   pop();
   }

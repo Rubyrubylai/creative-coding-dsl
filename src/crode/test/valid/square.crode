@@ -1,8 +1,8 @@
-canvas "Kirby" {
+canvas "Square" width 800 height 600 {
   let test = square {
-    size 0.5
+    size 50
     color black
   }
 
-  draw test at (rand(0,8), rand(0,6))
+  draw test at (rand(0,800), rand(0,600))
 }

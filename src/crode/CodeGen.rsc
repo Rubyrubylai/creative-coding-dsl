@@ -11,8 +11,6 @@ import crode::CST2AST;
  * Code generation for crode.
  */
 
-real scaleUnit = 100.0;
-
 str colorToJs(Color color) {
   switch (color) {
     case \white(): return "\"white\"";
@@ -39,21 +37,21 @@ str joinStrings(list[str] parts) {
 str generateShape(Shape shape) {
   switch (shape) {
     case \circle(Expr radius, Color color): {
-      str diameter = "(<generateExprValue(radius)> * 2.0 * <scaleUnit>)";
+      str diameter = "(<generateExprValue(radius)> * 2.0)";
       return "  fill(<colorToJs(color)>);\n"
            + "  noStroke();\n"
            + "  circle(0, 0, <diameter>);\n";
     }
     case \ellipse(Expr width, Expr height, Color color): {
-      str jsWidth = "(<generateExprValue(width)> * <scaleUnit>)";
-      str jsHeight = "(<generateExprValue(height)> * <scaleUnit>)";
+      str jsWidth = "(<generateExprValue(width)>)";
+      str jsHeight = "(<generateExprValue(height)>)";
       return "  fill(<colorToJs(color)>);\n"
            + "  noStroke();\n"
            + "  ellipse(0, 0, <jsWidth>, <jsHeight>);\n";
     }
     case \arc(Expr width, Expr height, Expr startAngle, Expr stopAngle, Color color): {
-      str jsWidth = "(<generateExprValue(width)> * <scaleUnit>)";
-      str jsHeight = "(<generateExprValue(height)> * <scaleUnit>)";
+      str jsWidth = "(<generateExprValue(width)>)";
+      str jsHeight = "(<generateExprValue(height)>)";
       str jsStartAngle = "(<generateExprValue(startAngle)>)";
       str jsStopAngle = "(<generateExprValue(stopAngle)>)";
       return "  noFill();\n"
@@ -62,20 +60,20 @@ str generateShape(Shape shape) {
            + "  arc(0, 0, <jsWidth>, <jsHeight>, <jsStartAngle>, <jsStopAngle>);\n";
     }
     case \square(Expr size, Color color): {
-      str jsSize = "(<generateExprValue(size)> * <scaleUnit>)";
+      str jsSize = "(<generateExprValue(size)>)";
       return "  fill(<colorToJs(color)>);\n"
            + "  noStroke();\n"
            + "  square(0, 0, <jsSize>);\n"; // 0,0 is location of topleft corner, whereas circle/eclipse it's centre. TODO documentation
     }
     case \rect(Expr width, Expr height, Color color): {
-      str jsWidth = "(<generateExprValue(width)> * <scaleUnit>)";
-      str jsHeight = "(<generateExprValue(height)> * <scaleUnit>)";
+      str jsWidth = "(<generateExprValue(width)>)";
+      str jsHeight = "(<generateExprValue(height)>)";
       return "  fill(<colorToJs(color)>);\n"
            + "  noStroke();\n"
            + "  rect(0, 0, <jsWidth>, <jsHeight>)";
     }
     case \star(Expr size, Color color): {
-      str sizeExpr = "(<generateExprValue(size)> * <scaleUnit>)";
+      str sizeExpr = "(<generateExprValue(size)>)";
       int points = 5;
       return "  fill(<colorToJs(color)>);\n"
            + "  noStroke();\n"
@@ -105,7 +103,7 @@ str generateExpr(Expr expr) {
 str generateExprValue(Expr expr) {
   switch (expr) {
     case \number(real v): return "<v>";
-    case \randExpr(real min, real max): return "random(<min>, <max>)"; // unscaled here
+    case \randExpr(real min, real max): return "random(<min>, <max>)";
     case \idExpr(str name): return name;
     case \mul(Expr l, Expr r): return "(<generateExprValue(l)> * <generateExprValue(r)>)";
     case \div(Expr l, Expr r): return "(<generateExprValue(l)> / <generateExprValue(r)>)";
@@ -117,7 +115,7 @@ str generateExprValue(Expr expr) {
 }
 
 str generateCoordExpr(Expr expr)
-  = "(<generateExprValue(expr)> * <scaleUnit>)";
+  = "(<generateExprValue(expr)>)";
 
 str generateCond(Cond cond) {
   switch (cond) {
@@ -201,11 +199,13 @@ str generateDrawCallsFor(Statement statement) {
 
 public str generateP5(Canvas canvas) {
   switch (canvas) {
-    case \canvas(str name, list[Statement] statements): {
+    case \canvas(str name, real width, real height, list[Statement] statements): {
+      str jsWidth = "<width>";
+      str jsHeight = "<height>";
       return "// Generated from canvas \"<name>\"\n\n"
            + generateDefinitions(statements)
            + "function setup() {\n"
-           + "  createCanvas(800, 600);\n"
+           + "  createCanvas(<jsWidth>, <jsHeight>);\n"
            + "  angleMode(DEGREES);\n"
            + "  background(255);\n\n"
            + generateDrawCalls(statements)
@@ -235,7 +235,7 @@ str baseName(loc sourceFile)
 
 public str generateHtml(Canvas canvas, str jsFileName) {
   switch (canvas) {
-    case \canvas(str name, _): {
+    case \canvas(str name, _, _, _): {
       return "\<!doctype html\>\n"
            + "\<html lang=\"en\"\>\n"
            + "  \<head\>\n"

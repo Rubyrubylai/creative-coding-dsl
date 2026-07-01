@@ -1,17 +1,18 @@
-// Generated from canvas "Kirby"
+// Generated from canvas "Eye"
 
 function eye() {
   fill("black");
   noStroke();
-  circle(0, 0, 60.000);
+  circle(0, 0, (30. * 2.0));
 }
 
 function setup() {
-  createCanvas(800, 600);
+  createCanvas(800., 600.);
+  angleMode(DEGREES);
   background(255);
 
   push();
-  translate(80.00, 50.00);
+  translate((80.), (50.));
   eye();
   pop();
 }

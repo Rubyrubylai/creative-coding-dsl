@@ -49,7 +49,7 @@ lexical Color
 ;
 
 start syntax Canvas
-  = canvas: "canvas" StringLiteral "{" Statement* "}";
+  = canvas: "canvas" StringLiteral "width" NumberLiteral "height" NumberLiteral "{" Statement* "}";
 
 syntax Statement
   = assignment: "let" Id "=" Expr

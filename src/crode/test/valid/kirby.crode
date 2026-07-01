@@ -1,56 +1,56 @@
-canvas "Kirby" {
+canvas "Kirby" width 800 height 600 {
   let body = circle {
-    radius 1.35
+    radius 135
     color pink
   }
 
   let foot = ellipse {
-    width 1.05
-    height 0.45
+    width 105
+    height 45
     color red
   }
 
   let hand = ellipse {
-    width 0.75
-    height 0.5
+    width 75
+    height 50
     color pink
   }
 
   let eye = ellipse {
-    width 0.28
-    height 0.7
+    width 28
+    height 70
     color black
   }
 
   let eye_shine = circle {
-    radius 0.08
+    radius 8
     color white
   }
 
   let cheek = ellipse {
-    width 0.42
-    height 0.22
+    width 42
+    height 22
     color red
   }
 
   let smile = arc {
-    width 0.55
-    height 0.35
+    width 55
+    height 35
     start 20
     stop 160
     color black
   }
 
-  draw foot at (2.35, 3.55)
-  draw foot at (3.65, 3.55)
-  draw hand at (1.75, 2.55)
-  draw hand at (4.25, 2.55)
-  draw body at (3.0, 2.5)
-  draw eye at (2.55, 2.2)
-  draw eye at (3.45, 2.2)
-  draw eye_shine at (2.6, 2.0)
-  draw eye_shine at (3.5, 2.0)
-  draw cheek at (2.25, 2.65)
-  draw cheek at (3.75, 2.65)
-  draw smile at (3.0, 2.7)
+  draw foot at (235, 355)
+  draw foot at (365, 355)
+  draw hand at (175, 255)
+  draw hand at (425, 255)
+  draw body at (300, 250)
+  draw eye at (255, 220)
+  draw eye at (345, 220)
+  draw eye_shine at (260, 200)
+  draw eye_shine at (350, 200)
+  draw cheek at (225, 265)
+  draw cheek at (375, 265)
+  draw smile at (300, 270)
 }
