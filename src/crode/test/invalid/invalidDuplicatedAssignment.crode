@@ -1,0 +1,8 @@
+canvas "invalidDuplicatedAssignment" width 800 height 600 {
+  let snowflake = circle {
+    radius 5
+    color black
+  }
+
+  let snowflake = 0
+}

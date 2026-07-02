@@ -1,0 +1,10 @@
+canvas "InvalidShapeCondition" width 800 height 600 {
+  let snowflake = circle {
+    radius 5
+    color black
+  }
+
+  if snowflake equals 1 {
+    draw snowflake at (100, 100)
+  }
+}

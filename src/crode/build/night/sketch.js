@@ -15,7 +15,7 @@ function stars() {
   fill("yellow");
   noStroke();
   {
-    let outerR = (random(0., 30.));
+    let outerR = (random(1., 30.));
     let innerR = outerR * 0.4;
     beginShape();
     for (let i = 0; i < 5 * 2; i++) {

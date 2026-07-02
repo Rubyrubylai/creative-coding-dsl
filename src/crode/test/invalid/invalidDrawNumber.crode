@@ -1,0 +1,5 @@
+canvas "invalidDrawNumber" width 800 height 600 {
+  let x = 100
+
+  draw x at (100, 100)
+}

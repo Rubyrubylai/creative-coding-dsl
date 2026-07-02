@@ -1,0 +1,8 @@
+canvas "InvalidShapeSize" width 800 height 600 {
+  let dot = circle {
+    radius 0
+    color black
+  }
+
+  draw dot at (100, 100)
+}
