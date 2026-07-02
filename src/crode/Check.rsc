@@ -12,8 +12,10 @@ import crode::AST;
 
 bool checkCanvasConfiguration(Canvas canvas){
   switch (canvas) {
-    case \canvas(_, _, _, _, list[Statement] statements): {
-      return checkStatements(statements, {}, {});
+    case \canvas(_, real width, real height, _, list[Statement] statements): {
+      return width > 0.0
+          && height > 0.0
+          && checkStatements(statements, {}, {});
     }
   }
   return false;
@@ -99,20 +101,22 @@ bool checkForLoopRange(real from, real to, real step)
 bool checkShape(Shape shape, set[str] numberNames) {
   switch (shape) {
     case \circle(NumExpr radius, _):
-      return checkNumExpr(radius, numberNames);
+      return checkPositiveNumExpr(radius, numberNames);
     case \ellipse(NumExpr width, NumExpr height, _):
-      return checkNumExpr(width, numberNames) && checkNumExpr(height, numberNames);
+      return checkPositiveNumExpr(width, numberNames)
+          && checkPositiveNumExpr(height, numberNames);
     case \arc(NumExpr width, NumExpr height, NumExpr startAngle, NumExpr stopAngle, _):
-      return checkNumExpr(width, numberNames)
-          && checkNumExpr(height, numberNames)
+      return checkPositiveNumExpr(width, numberNames)
+          && checkPositiveNumExpr(height, numberNames)
           && checkNumExpr(startAngle, numberNames)
           && checkNumExpr(stopAngle, numberNames);
     case \square(NumExpr size, _):
-      return checkNumExpr(size, numberNames);
+      return checkPositiveNumExpr(size, numberNames);
     case \rect(NumExpr width, NumExpr height, _):
-      return checkNumExpr(width, numberNames) && checkNumExpr(height, numberNames);
+      return checkPositiveNumExpr(width, numberNames)
+          && checkPositiveNumExpr(height, numberNames);
     case \star(NumExpr size, _):
-      return checkNumExpr(size, numberNames);
+      return checkPositiveNumExpr(size, numberNames);
   }
   return false;
 }
@@ -140,6 +144,16 @@ bool checkCond(Cond cond, set[str] numberNames) {
       return checkNumExpr(left, numberNames) && checkNumExpr(right, numberNames);
   }
   return false;
+}
+
+bool checkPositiveNumExpr(NumExpr expr, set[str] numberNames) {
+  switch (expr) {
+    case \number(real val):
+      return val > 0.0;
+    case \randExpr(real min, _):
+      return min > 0.0;
+  }
+  return checkNumExpr(expr, numberNames);
 }
 
 bool checkNumExpr(NumExpr expr, set[str] numberNames) {
