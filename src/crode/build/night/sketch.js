@@ -1,5 +1,10 @@
 // Generated from canvas "Night"
 
+function setup() {
+  createCanvas(800., 600.);
+  angleMode(DEGREES);
+  background("black");
+
 function snowflake() {
   fill("white");
   noStroke();
@@ -22,12 +27,7 @@ function stars() {
   }
 }
 
-function setup() {
-  createCanvas(800., 600.);
-  angleMode(DEGREES);
-  background("black");
-
-  for (let i = 0; i < 300; i++) {
+  for (let $crode_repeat_i = 0; $crode_repeat_i < 300; $crode_repeat_i++) {
   if ((random(0., 1.) < 0.5)) {
   push();
   translate((random(0., 780.)), (random(0., 580.)));
