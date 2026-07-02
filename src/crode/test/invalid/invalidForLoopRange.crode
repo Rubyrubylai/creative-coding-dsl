@@ -1,0 +1,10 @@
+canvas "InvalidForLoopRange" width 800 height 600 {
+  let dot = circle {
+    radius 5
+    color black
+  }
+
+  for i in 8 to 0 step 1 {
+    draw dot at (100, 100)
+  }
+}

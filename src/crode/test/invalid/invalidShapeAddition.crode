@@ -1,0 +1,10 @@
+canvas "invalidShapeAddition" width 800 height 600 {
+  let snowflake = circle {
+      radius random(2, 6)
+      color black
+  }
+
+  let i = 0 + snowflake
+
+  draw snowflake at (100, 100)
+}

@@ -1,0 +1,8 @@
+canvas "InvalidRandomShapeSize" width 800 height 600 {
+  let stars = star {
+    size random(0, 30)
+    color yellow
+  }
+
+  draw stars at (100, 100)
+}

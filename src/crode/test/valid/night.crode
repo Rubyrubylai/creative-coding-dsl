@@ -5,7 +5,7 @@ canvas "Night" width 800 height 600 background black {
     }
 
     let stars = star {
-        size random(0, 30)
+        size random(1, 30)
         color yellow
     }
 
